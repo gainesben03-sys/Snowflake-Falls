@@ -4,15 +4,15 @@
   // ---------- Story ----------
   const STORY_PARAGRAPHS = [
     "Ten years in the city. A corner office with a view of other corner offices. Forty-hour days, and a phone that buzzes even in the shower.",
-    "Then the letter arrived. Snowflake Falls, population 1,812, needed help. Its Christmas Festival was one week away, its customer service had collapsed into a snowball fight, and the mayor had one request: come home.",
+    "Then the letter arrived. Snowflake Falls, population 1,812, was in trouble. Its Christmas Festival was one week away, its customer service had collapsed into a snowball fight, and unless things changed by Christmas Eve, Mayor Eleanor Pruitt would have to cancel the festival for good. She had one request: come home.",
     "So you packed two suits, four cashmere sweaters, and a laptop you swore you'd only open once. The highway was closed, the GPS said \"recalculating\" eleven times, and the last mile ended at a snowbank with a sign: Welcome to Snowflake Falls.",
     "Now, Executive. What's your name?"
   ];
 
   const EPILOGUE = {
-    kicker: "Epilogue",
-    title: "Snowflake Falls, Forever",
-    text: "The snow stopped right on schedule. The tree lights blinked on along Main Street, the cocoa ran out only once, and the mayor cried a little into her scarf. Somewhere between the customer emails and the gingerbread, you realized you had stopped checking your city phone. Claire handed you a mug, nodded at the glowing street, and asked, \"So. Are you staying for Christmas?\" You looked at the town that needed you. \"I think I'm staying for good.\""
+    kicker: "A Letter from the Mayor",
+    title: "Thank You, Executive",
+    text: "Dear Chief Christmas Officer,\n\nThe snow began falling at 7:02 p.m. on Christmas Eve, just as the tree lights came on. Nobody on Main Street had seen snow that heavy in years, and the children danced in it until their cheeks were red. Our customers are happy, our volunteers are trained, and our festival is alive. You came home when we needed you most, and you reminded us what Snowflake Falls is really about.\n\nThank you. Stay as long as you like. The cocoa is on me.\n\nWith love,\nMayor Eleanor Pruitt\n\nP.S. Claire says you still owe her a checkers rematch."
   };
 
   // ---------- Content ----------
@@ -30,10 +30,7 @@
       ],
       correct: 1,
       explanation: "A kickoff meeting aligns everyone on goals, clarifies who owns what, and gives the team a clear implementation plan. Without those three things, even the best tools arrive to a confused town.",
-      twist: {
-        title: "The Reindeer Are Watching",
-        text: "The delivery drones you just rolled out have already been named after reindeer by the children of Snowflake Falls. Rudolph has flown into the bakery window twice. Nobody has told the drones they are supposed to deliver gifts, not frosting."
-      }
+      twist: null
     },
     {
       label: "Round 2 · Training",
@@ -47,10 +44,7 @@
       ],
       correct: 1,
       explanation: "People learn fastest when training matches their actual job, they can see it done, and they have resources they can reach when they need them. A longer handbook nobody reads does none of those things.",
-      twist: {
-        title: "The Snowman in the Back Row",
-        text: "Your first training session is interrupted by a snowman who walks in, picks up a clipboard from the front table, and sits in the back row. Nobody knows who built him. He is taking notes, and he is very good at it."
-      }
+      twist: null
     },
     {
       label: "Round 3 · Customer Support",
@@ -64,10 +58,7 @@
       ],
       correct: 1,
       explanation: "Customers in a crisis need to know someone is taking them seriously. Acknowledging the problem, understanding how far it reaches, communicating honestly, and coordinating a fix is what turns a holiday disaster into a story of trust.",
-      twist: {
-        title: "A Snowball at the Window",
-        text: "Just as the servers come back online, a snowball hits your window. It's Claire Hollis, owner of the Cozy Mug Bakery and chair of the festival, and the only person in town who has ever beaten you at checkers. She is not impressed by your city shoes. \"Ten minutes,\" she says. \"Then you're helping me with the cocoa.\""
-      }
+      twist: null
     },
     {
       label: "Round 4 · Customer Success",
@@ -82,8 +73,8 @@
       correct: 1,
       explanation: "Checking outcomes against the original goals, listening to customers, and identifying improvements is how a program proves its value and keeps getting better. Gut feelings make a nice story but a poor report card.",
       twist: {
-        title: "The Mayor's Secret Novel",
-        text: "While you pull the customer data, the mayor confesses that she has been writing a Christmas romance novel for three years. She hands you the manuscript, looks you in the eye, and asks what you think. Choose your words carefully, Executive. The whole town will hear about it."
+        title: "The Mayor's Hardest Decision",
+        text: "The mayor steps up to the microphone with the cancellation notice trembling in her hands. The square goes silent. Children look up at the gray sky, where not a single snowflake has fallen. \"I'm so sorry, Snowflake Falls,\" she says. \"The Christmas Festival is canceled.\" Then the lights above the stage flicker, and everyone turns to you."
       }
     },
     {
@@ -245,7 +236,7 @@
     loadRound();
   }
 
-  // ---------- Plot twists and epilogue ----------
+  // ---------- Plot twist and epilogue letter ----------
   function showTwist(kicker, title, text, buttonLabel, next) {
     $("twist-kicker").textContent = kicker;
     $("twist-title").textContent = title;
@@ -356,7 +347,7 @@
     $("feedback-message").textContent = message;
     $("feedback-explanation").textContent = round.explanation;
     $("btn-next").textContent = state.roundIndex === ROUNDS.length - 1
-      ? "Continue to the Epilogue"
+      ? "Continue to the Mayor's Letter"
       : "Continue to Next Scene";
     $("feedback").hidden = false;
     if (isCorrect) celebrate();
@@ -382,14 +373,17 @@
 
   $("btn-submit").addEventListener("click", handleSubmit);
 
-  // After each scene: show that scene's plot twist, then the next scene.
-  // After the last scene: show the epilogue, then the final score.
+  // After a scene: show its plot twist if it has one, then the next scene.
+  // After the last scene: show the mayor's thank-you letter, then the final score.
   $("btn-next").addEventListener("click", () => {
     const finishedRound = ROUNDS[state.roundIndex];
     state.roundIndex += 1;
     if (state.roundIndex < ROUNDS.length) {
-      const twist = finishedRound.twist;
-      showTwist("Plot Twist", twist.title, twist.text, "Continue to Next Scene", loadRound);
+      if (finishedRound.twist) {
+        showTwist("Plot Twist", finishedRound.twist.title, finishedRound.twist.text, "Continue to Next Scene", loadRound);
+      } else {
+        loadRound();
+      }
     } else {
       showTwist(EPILOGUE.kicker, EPILOGUE.title, EPILOGUE.text, "See Your Final Score", showFinal);
     }
