@@ -73,13 +73,48 @@ html, body {
   padding: 24px;
 }
 
+.studio-badge {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 8px 18px;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: rgba(20, 42, 29, 0.6);
+}
+
+.studio-badge span {
+  color: var(--cream);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  margin-left: 4px;
+}
+
+.poster-frame {
+  padding: 10px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), #8a6a2a, var(--gold-light));
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.45);
+  margin-bottom: 24px;
+}
+
 .town-illustration {
+  display: block;
   width: 100%;
   height: auto;
   border-radius: var(--radius);
-  border: 4px solid var(--gold);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-  margin-bottom: 24px;
+}
+
+.billing {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--cream);
+  opacity: 0.85;
+  margin: -12px 0 22px;
 }
 
 .lights circle {
@@ -455,6 +490,31 @@ input[type="text"]:focus {
 }
 
 .credits-list dd { margin: 0; }
+
+/* Story and plot twists */
+.story-card,
+.twist-card {
+  text-align: center;
+}
+
+.story-text {
+  text-align: left;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.story-text p {
+  margin: 0 0 14px;
+}
+
+.twist-card {
+  border-color: var(--cranberry);
+}
+
+.twist-card h2 {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+}
 
 /* Restart bar */
 .restart-bar {
