@@ -1,12 +1,20 @@
 
-/* =========================================================
+/* ============================================================
    SNOWFLAKE FALLS
-   A GradeMark Studios Production
-   Five-scene CX holiday adventure
-   ========================================================= */
+   A GradeMark Studios Christmas CX Experience
+   Complete replacement for script.js
+   ============================================================ */
 
 (() => {
   "use strict";
+
+  // ------------------------------------------------------------
+  // 1. GAME SETTINGS
+  // ------------------------------------------------------------
+
+  const GAME_TITLE = "Snowflake Falls";
+  const DECISION_TIME = 40;
+  const MAX_SCORE = 80;
 
   const categories = [
     "Implementation",
@@ -15,797 +23,990 @@
     "Customer Success"
   ];
 
+  const categoryIcons = ["🚀", "🎓", "🎧", "❤️"];
+
+  let playerName = "";
+  let currentScene = 0;
+  let scores = [0, 0, 0, 0];
+  let answers = [];
+  let timerInterval = null;
+  let timeLeft = DECISION_TIME;
+  let locked = false;
+
+  // ------------------------------------------------------------
+  // 2. THE OPENING LETTER
+  // ------------------------------------------------------------
+
+  const openingLetter = {
+    title: "The Letter from Snowflake Falls",
+    paragraphs: [
+      "Ten years in the city. A corner office with a view of other corner offices. Forty-hour days, and a phone that buzzes even in the shower.",
+
+      "Then the letter arrived. Snowflake Falls, population 1,812, was in trouble. Its Christmas Festival was one week away, its customer service had collapsed into a snowball fight, and unless things changed by Christmas Eve, Mayor Eleanor Pruitt would have to cancel the festival for good. She had one request: come home.",
+
+      "So you packed two suits, four cashmere sweaters, and a laptop you swore you'd only open once. The highway was closed, the GPS said \"recalculating\" eleven times, and the last mile ended at a snowbank with a sign: Welcome to Snowflake Falls."
+    ],
+    prompt: "Now, Executive. What's your name?"
+  };
+
+  // ------------------------------------------------------------
+  // 3. THE FIVE SCENES
+  // Each choice awards points across the four CX disciplines.
+  // Every choice is worth 16 possible points.
+  // ------------------------------------------------------------
+
   const scenes = [
+
+    // SCENE 1
     {
       title: "The Big Kickoff",
-      chapter: "ACT I — A TOWN FULL OF EXPECTATIONS",
-      category: "Implementation",
-      setting: "Snowflake Falls Town Hall",
-
-      intro:
-        "Snow is falling, the cocoa is flowing, and the school district's new student information system is supposed to bring the whole town together. Unfortunately, nobody agrees on what 'ready' means.",
-
+      subtitle: "Implementation",
+      location: "The Snowflake Falls Town Hall",
+      image: "🎄",
+      setup:
+        "You arrive at Town Hall just as Mayor Eleanor Pruitt is trying to explain the town's new school information system to a room full of frustrated principals. The system is supposed to be ready before the Christmas Festival. It isn't.",
       dialogue: [
-        ["MAYOR ELEANOR PRUITT",
-          "Welcome, everyone! By January, I want every school using GradeMark. Smoothly. Joyfully. Preferably with a ribbon-cutting."],
-
-        ["SUPERINTENDENT HOLLIS",
-          "The board expects attendance, grades, schedules, and parent access on day one."],
-
-        ["JAMIE — IMPLEMENTATION LEAD",
-          "Our kickoff notes say phase one is attendance and schedules. Grades and family access are in phase two."],
-
-        ["MAYOR ELEANOR",
-          "Well, this is awkward. I already ordered the ribbon."]
-      ],
-
-      question:
-        "What should the executive team do first?",
-
-      choices: [
         {
-          text: "Agree to every request so the superintendent feels heard.",
-          scores: { Implementation: 0, Training: 0, Support: 0, "Customer Success": 0 },
-          feedback:
-            "A cheerful yes creates a very unhappy launch. Scope is now unclear and the team has no shared definition of success.",
-          consequence:
-            "The superintendent leaves believing every feature is guaranteed."
+          character: "MAYOR ELEANOR PRUITT",
+          text: "Oh, thank goodness you're here! We have a situation. The school district is supposed to launch next week, but nobody seems to know what is happening. The superintendent says the project team has disappeared. The project team says the superintendent hasn't answered an email since October."
         },
         {
-          text: "Align stakeholders on outcomes, scope, owners, and decision dates. Document the agreed launch plan.",
-          scores: { Implementation: 10, Training: 2, Support: 1, "Customer Success": 3 },
-          feedback:
-            "Excellent. You turned competing expectations into a shared plan with clear ownership and measurable milestones.",
-          consequence:
-            "The superintendent signs the one-page launch charter. The ribbon is moved to phase two."
+          character: "MRS. CLAUS",
+          text: "And I haven't received a single student attendance report. How am I supposed to know who's been naughty or nice?"
         },
         {
-          text: "Send the technical project plan and ask everyone to read it.",
-          scores: { Implementation: 4, Training: 0, Support: 0, "Customer Success": 0 },
-          feedback:
-            "Documentation helps, but it does not replace alignment. People need a conversation about what matters and who decides.",
-          consequence:
-            "Three departments reply with three different interpretations."
-        },
-        {
-          text: "Ask the superintendent to choose the features while the team starts configuring.",
-          scores: { Implementation: 2, Training: 0, Support: 0, "Customer Success": 1 },
-          feedback:
-            "The customer should guide priorities, but the team still needs to clarify dependencies, feasibility, and trade-offs.",
-          consequence:
-            "The team starts building before the destination is agreed."
+          character: "MAYOR ELEANOR PRUITT",
+          text: "So, Executive... what's our first move?"
         }
       ],
-
-      twist:
-        "As the meeting ends, the registrar quietly mentions that the district's student records are stored in four different formats. Go-live is in two weeks."
+      question: "The implementation is behind schedule, stakeholders are frustrated, and nobody agrees on what is left to do. What do you do?",
+      choices: [
+        {
+          title: "Call an emergency kickoff reset",
+          description: "Bring the district and project team together. Reconfirm scope, ownership, milestones, risks, and the definition of go-live success.",
+          scores: [7, 3, 2, 4],
+          feedback: "A strong start. You establish shared expectations and give everyone a common plan. A project needs more than a calendar invite—it needs ownership.",
+          outcome: "The superintendent finally puts down her peppermint mocha. For the first time in weeks, everyone is looking at the same plan."
+        },
+        {
+          title: "Tell the team to work faster",
+          description: "The deadline is the deadline. Ask everyone to put in extra hours and get the project across the finish line.",
+          scores: [3, 1, 5, 2],
+          feedback: "Urgency matters, but speed without clarity can create more problems. You may get activity, but you haven't solved the underlying confusion.",
+          outcome: "The project team starts working late. Unfortunately, they're still not sure what they're working on."
+        },
+        {
+          title: "Start with the end users",
+          description: "Talk to school administrators and teachers. Understand what they need to do on day one and work backward from there.",
+          scores: [4, 4, 3, 4],
+          feedback: "A customer-centered approach. Understanding the actual user experience helps define what a successful implementation should look like.",
+          outcome: "A teacher raises her hand. 'Honestly, I just need to take attendance without calling three people.' Everyone nods."
+        },
+        {
+          title: "Send a project status email",
+          description: "Summarize the current situation, list outstanding tasks, and ask each owner to reply with an update by tomorrow.",
+          scores: [5, 2, 3, 5],
+          feedback: "Documentation and accountability are helpful, but an email alone may not resolve competing expectations or create the alignment this project needs.",
+          outcome: "Your inbox receives 47 replies. One includes a recipe for gingerbread cookies. It is unclear why."
+        }
+      ]
     },
 
+    // SCENE 2
     {
       title: "The Night Before Go-Live",
-      chapter: "ACT II — THE DATA BEFORE CHRISTMAS",
-      category: "Implementation",
-      setting: "District Office — 8:47 p.m.",
-
-      intro:
-        "The launch charter is signed. The team has a plan. But the data conversion test has revealed duplicate student records, missing guardian contacts, and a school whose mascot is somehow listed as a student.",
-
+      subtitle: "Implementation & Customer Success",
+      location: "The Town's Very Small IT Office",
+      image: "💻",
+      setup:
+        "It's the night before launch. Snow is falling, the town's Christmas lights are flickering, and the implementation team has discovered that the student data imported from the old system doesn't match the new system.",
       dialogue: [
-        ["MORGAN — DATA SPECIALIST",
-          "We found 186 records that don't reconcile. Also, someone enrolled the Wildcat mascot in Algebra II."],
-
-        ["JAMIE — IMPLEMENTATION LEAD",
-          "The mascot has excellent attendance. The guardian data, however, is a real concern."],
-
-        ["SUPERINTENDENT HOLLIS",
-          "Can we still launch Monday? The board announcement is already scheduled."],
-
-        ["MAYOR ELEANOR",
-          "I can delay the announcement. I cannot delay Christmas. I've checked."]
-      ],
-
-      question:
-        "How do you handle the launch-readiness issue?",
-
-      choices: [
         {
-          text: "Load everything and fix errors after launch.",
-          scores: { Implementation: 0, Training: 0, Support: 0, "Customer Success": 0 },
-          feedback:
-            "That risks incorrect student information and undermines trust. A deadline is not a substitute for readiness.",
-          consequence:
-            "The mascot receives six automated absence notices."
+          character: "JACK FROST",
+          text: "I don't want to alarm anyone, but we have 600 duplicate student records, three missing schools, and a spreadsheet called FINAL_FINAL_ACTUAL_FINAL.xlsx."
         },
         {
-          text: "Hide the exceptions from the customer so confidence stays high.",
-          scores: { Implementation: 0, Training: 0, Support: 0, "Customer Success": 0 },
-          feedback:
-            "Never trade transparency for temporary reassurance. Customers need facts to make informed decisions.",
-          consequence:
-            "The registrar discovers the issue during the first morning of school."
+          character: "MAYOR ELEANOR PRUITT",
+          text: "Can we still launch tomorrow? The superintendent has already invited the local newspaper."
         },
         {
-          text: "Triage errors by risk, validate critical records with district owners, run a focused retest, and make a go/no-go decision together.",
-          scores: { Implementation: 10, Training: 1, Support: 2, "Customer Success": 3 },
-          feedback:
-            "Strong launch leadership. You protect data integrity, involve the right customer owners, and make the decision based on evidence.",
-          consequence:
-            "The district agrees to a short, controlled delay for one school while the others proceed."
-        },
-        {
-          text: "Ask the vendor team to work overnight until every record is perfect.",
-          scores: { Implementation: 3, Training: 0, Support: 1, "Customer Success": 0 },
-          feedback:
-            "Effort matters, but an arbitrary all-night push does not establish data quality or customer acceptance criteria.",
-          consequence:
-            "The team gets very little sleep and still needs the registrar to validate the records."
+          character: "JACK FROST",
+          text: "Well, technically, we can turn it on. Whether it works is a different question."
         }
       ],
-
-      twist:
-        "The registrar catches the mascot record and laughs for the first time all week. Then she shares the real concern: her staff have never been shown how to handle the new workflow."
+      question: "The launch is tomorrow. Data quality is questionable. What is your move?",
+      choices: [
+        {
+          title: "Pause and establish launch criteria",
+          description: "Identify critical data issues, define what must be fixed before launch, and communicate a realistic go/no-go recommendation.",
+          scores: [7, 2, 3, 4],
+          feedback: "Excellent judgment. A successful launch is not simply turning the system on. It means protecting the customer and making a responsible decision.",
+          outcome: "The superintendent is disappointed, but appreciates the honesty. The team agrees on a controlled launch plan."
+        },
+        {
+          title: "Launch anyway and fix things later",
+          description: "The deadline is public. Turn on the system and resolve issues as they come in.",
+          scores: [2, 1, 6, 2],
+          feedback: "This creates unnecessary risk. Support can help resolve issues, but it should not become the emergency plan for an avoidable implementation failure.",
+          outcome: "The system goes live. The newspaper arrives. So do 83 support tickets."
+        },
+        {
+          title: "Create a focused recovery team",
+          description: "Bring the right technical and customer-facing people together. Prioritize critical data fixes and communicate progress to the district.",
+          scores: [6, 3, 4, 4],
+          feedback: "A practical recovery approach. You bring the right people together, prioritize the work, and keep the customer informed.",
+          outcome: "The team works through the night. Someone orders pizza shaped like Christmas trees. Morale improves."
+        },
+        {
+          title: "Ask the district to own the data cleanup",
+          description: "Explain that the district provided the original data and ask them to correct the records before launch.",
+          scores: [4, 2, 3, 5],
+          feedback: "Customer ownership matters, but simply shifting responsibility can damage trust. The best approach is collaborative problem-solving.",
+          outcome: "The district sends back a spreadsheet. It is named FINAL_FINAL_ACTUAL_FINAL_v2.xlsx."
+        }
+      ]
     },
 
+    // SCENE 3
     {
       title: "Christmas Training Miracle",
-      chapter: "ACT III — EVERYONE LEARNS DIFFERENTLY",
-      category: "Training",
-      setting: "Snowflake Falls Middle School",
-
-      intro:
-        "The data plan is back on track. Now the district's registrars, teachers, and administrators are asking for training — and they all mean something different.",
-
+      subtitle: "Training",
+      location: "Snowflake Falls Elementary School",
+      image: "📚",
+      setup:
+        "The system is finally live. But the teachers are not exactly celebrating. Most have never used the new platform, the training room is full, and someone has accidentally projected a picture of their cat onto the smartboard.",
       dialogue: [
-        ["CASEY — TRAINING LEAD",
-          "Registrars need hands-on enrollment practice. Teachers need attendance and gradebook workflows. Administrators need reports and oversight."],
-
-        ["MR. BELL — TEACHER",
-          "I have 27 minutes between classes. Please don't give me a 90-slide presentation."],
-
-        ["TANYA — HEAD REGISTRAR",
-          "I need to practice the messy real-life cases, not just watch someone click through the happy path."],
-
-        ["SUPERINTENDENT HOLLIS",
-          "And I need to know whether people are actually ready."]
-      ],
-
-      question:
-        "Which training approach gives the district the best chance to succeed?",
-
-      choices: [
         {
-          text: "Run one large webinar for everyone and send the recording.",
-          scores: { Implementation: 0, Training: 2, Support: 1, "Customer Success": 0 },
-          feedback:
-            "A recording is useful reinforcement, but a single generic session misses role-specific workflows and practice.",
-          consequence:
-            "Teachers fast-forward to the end. Registrars start a separate group chat titled 'Help?'"
+          character: "EMILY EVERGREEN",
+          text: "I've prepared a 94-slide presentation covering every feature, setting, report, and configuration option. We should be done in about four hours."
         },
         {
-          text: "Deliver role-based sessions with realistic practice, quick-reference guides, office hours, and a readiness check.",
-          scores: { Implementation: 1, Training: 10, Support: 3, "Customer Success": 3 },
-          feedback:
-            "Exactly right. Role-based learning, practice, reinforcement, and a way to measure readiness make training actionable.",
-          consequence:
-            "The registrar completes a practice enrollment and proudly declares the mascot officially withdrawn."
+          character: "MRS. CLAUS",
+          text: "Four hours? I have 26 classrooms to visit, 400 presents to wrap, and a reindeer with a scheduling conflict."
         },
         {
-          text: "Train administrators first and ask them to train everyone else.",
-          scores: { Implementation: 0, Training: 3, Support: 0, "Customer Success": 1 },
-          feedback:
-            "Train-the-trainer can work when trainers have time, materials, and support. Simply passing responsibility along is risky.",
-          consequence:
-            "The principal prints the slides. Nobody knows who is teaching the afternoon shift."
-        },
-        {
-          text: "Tell staff to use the system and contact support if they get stuck.",
-          scores: { Implementation: 0, Training: 0, Support: 2, "Customer Success": 0 },
-          feedback:
-            "Support is not a substitute for enablement. Preventable confusion becomes avoidable ticket volume.",
-          consequence:
-            "The support inbox receives 43 messages asking where the attendance button went."
+          character: "EMILY EVERGREEN",
+          text: "Well, the presentation is already printed."
         }
       ],
-
-      twist:
-        "At the end of training, Mr. Bell stays behind. He has built a clever attendance shortcut — and asks whether the team would like to see it."
+      question: "The teachers need to become comfortable using the system. How do you approach training?",
+      choices: [
+        {
+          title: "Focus on real-world workflows",
+          description: "Teach the most common tasks first. Demonstrate, let users practice, and give them simple job aids they can reference later.",
+          scores: [2, 8, 2, 4],
+          feedback: "Exactly right. Effective training is about helping people do their jobs—not showing them every button in the software.",
+          outcome: "Teachers begin practicing attendance, grading, and reporting. Mrs. Claus successfully submits her first attendance report."
+        },
+        {
+          title: "Deliver the full presentation",
+          description: "Cover every feature so users have a complete understanding of the platform before they leave.",
+          scores: [2, 4, 2, 2],
+          feedback: "Completeness is not the same as effectiveness. Too much information at once can overwhelm users and reduce retention.",
+          outcome: "Slide 47 appears. A teacher quietly opens a second browser tab to look at vacation packages."
+        },
+        {
+          title: "Offer office hours and individual help",
+          description: "Provide small-group sessions and scheduled opportunities for users to ask questions as they begin working in the system.",
+          scores: [2, 6, 5, 4],
+          feedback: "A strong support model. Follow-up access helps reinforce learning and gives users confidence when real questions arise.",
+          outcome: "The teachers appreciate having someone to call. One asks if you can also help with the copy machine."
+        },
+        {
+          title: "Record a training video and send it out",
+          description: "Create a recording so everyone can watch the training when it fits their schedule.",
+          scores: [2, 5, 2, 3],
+          feedback: "On-demand learning is valuable, but a recording alone doesn't guarantee understanding. Consider practice and opportunities for questions.",
+          outcome: "The video gets 312 views. Nobody is entirely sure whether anyone watched the whole thing."
+        }
+      ]
     },
 
+    // SCENE 4
     {
       title: "Christmas Eve Crisis",
-      chapter: "ACT IV — THE TICKET THAT SAVED CHRISTMAS",
-      category: "Support",
-      setting: "GradeMark Support Center — Christmas Eve",
-
-      intro:
-        "The district launches. Training pays off. Then, just before the holiday break, a login issue prevents several families from accessing the parent portal. The superintendent posts that the team needs an answer now.",
-
+      subtitle: "Support",
+      location: "The Snowflake Falls Support Center",
+      image: "☎️",
+      setup:
+        "It's Christmas Eve. The town's festival begins in two hours. Then the support phone starts ringing. A principal can't log in, a parent can't see grades, and the superintendent has sent an email with the subject line: WE NEED TO TALK.",
       dialogue: [
-        ["RILEY — SUPPORT MANAGER",
-          "We're seeing a spike in family login failures. It appears limited to accounts with recently updated email addresses."],
-
-        ["SUPERINTENDENT HOLLIS",
-          "Parents are calling our schools. What do I tell them?"],
-
-        ["JAMIE — IMPLEMENTATION LEAD",
-          "We need one coordinated message. No guessing."],
-
-        ["MAYOR ELEANOR",
-          "I have one question: is the cocoa portal affected?"]
-      ],
-
-      question:
-        "What is the best response?",
-
-      choices: [
         {
-          text: "Send a quick message saying everything is fixed, then investigate.",
-          scores: { Implementation: 0, Training: 0, Support: 0, "Customer Success": 0 },
-          feedback:
-            "Never announce a resolution before it is verified. False reassurance damages credibility.",
-          consequence:
-            "The issue continues, and the superintendent has to correct the public update."
+          character: "SAM SNOW",
+          text: "We're getting flooded. The login issue is affecting multiple schools. I have 29 open tickets, three voicemails, and someone just sent us a fax."
         },
         {
-          text: "Wait until engineering has a complete root-cause analysis before communicating.",
-          scores: { Implementation: 0, Training: 0, Support: 2, "Customer Success": 0 },
-          feedback:
-            "The technical facts matter, but silence leaves the customer managing the anxiety alone. Communicate what is known and when you'll update.",
-          consequence:
-            "The district writes its own explanation — and gets some details wrong."
+          character: "MAYOR ELEANOR PRUITT",
+          text: "The festival cannot be canceled. Not again. What are we going to do?"
         },
         {
-          text: "Acknowledge the impact, share confirmed scope and workarounds, assign an incident lead, and give the district a specific next-update time.",
-          scores: { Implementation: 1, Training: 1, Support: 10, "Customer Success": 3 },
-          feedback:
-            "Excellent incident communication: empathy, verified facts, ownership, practical guidance, and a predictable update cadence.",
-          consequence:
-            "Families receive a clear workaround. Engineering confirms the fix and support verifies recovery."
-        },
-        {
-          text: "Tell the district to have families reset all passwords.",
-          scores: { Implementation: 0, Training: 0, Support: 3, "Customer Success": 0 },
-          feedback:
-            "A broad workaround can create more confusion and may not address the actual issue. Validate targeted steps before recommending them.",
-          consequence:
-            "The help desk gets a second wave of password-reset requests."
+          character: "SAM SNOW",
+          text: "I can handle the tickets, but I need someone to help prioritize and communicate."
         }
       ],
-
-      twist:
-        "The issue is resolved before midnight. The superintendent sends a thank-you note — and asks for a January meeting to talk about what success should look like beyond fixing tickets."
+      question: "A widespread issue is affecting customers on Christmas Eve. What do you do?",
+      choices: [
+        {
+          title: "Activate incident management",
+          description: "Assess impact, assign an incident lead, prioritize the issue, communicate updates, and coordinate technical resolution.",
+          scores: [3, 2, 8, 3],
+          feedback: "This is the right response. A coordinated incident process reduces confusion, keeps customers informed, and helps the team focus on resolution.",
+          outcome: "The team identifies a shared login configuration issue. A fix is underway, and customers receive a clear update."
+        },
+        {
+          title: "Work tickets in the order received",
+          description: "Treat every ticket equally and resolve each one as quickly as possible.",
+          scores: [2, 2, 5, 2],
+          feedback: "Individual ticket resolution matters, but a widespread incident requires prioritization based on customer impact, not just arrival time.",
+          outcome: "The team resolves a printer issue before discovering that 300 teachers still cannot log in."
+        },
+        {
+          title: "Send a customer-wide communication",
+          description: "Acknowledge the issue, explain what is known, share the next update time, and provide a temporary workaround if available.",
+          scores: [2, 2, 6, 6],
+          feedback: "Great customer communication. Transparency builds trust, especially when a complete resolution takes time. Pair it with coordinated technical work.",
+          outcome: "The superintendent forwards your message to every principal. For once, everyone knows what is happening."
+        },
+        {
+          title: "Ask the team to stay late until everything is fixed",
+          description: "Keep everyone online and working until all tickets are closed.",
+          scores: [2, 1, 5, 2],
+          feedback: "Commitment is important, but effort without prioritization can exhaust the team. A structured response is more effective than simply working longer.",
+          outcome: "Everyone stays late. The reindeer are now waiting outside the support center."
+        }
+      ]
     },
 
+    // SCENE 5
     {
       title: "A Reason to Stay",
-      chapter: "ACT V — THE BEST GIFT IS WHAT HAPPENS NEXT",
-      category: "Customer Success",
-      setting: "Snowflake Falls — New Year's Eve",
-
-      intro:
-        "The holidays pass. The district is stable, staff are using the system, and the support queue is quiet. But the team knows a quiet inbox is not the same thing as a successful customer.",
-
+      subtitle: "Customer Success",
+      location: "The Snowflake Falls Christmas Festival",
+      image: "❤️",
+      setup:
+        "The login issue is resolved. The festival is underway. Children are skating, the town choir is singing, and the mayor has finally stopped checking her email every 90 seconds. But there is one final conversation.",
       dialogue: [
-        ["ALEX — CUSTOMER SUCCESS",
-          "Let's look at adoption, data quality, time saved, training confidence, and the district's goals for next semester."],
-
-        ["SUPERINTENDENT HOLLIS",
-          "I want to know whether this made life better for our schools — not just whether we turned it on."],
-
-        ["TANYA — HEAD REGISTRAR",
-          "Our new enrollment workflow is saving us hours. And Mr. Bell's shortcut should absolutely be in the next training."],
-
-        ["MAYOR ELEANOR",
-          "And I would like to formally recognize the person who rescued the mascot's academic career."]
-      ],
-
-      question:
-        "How do you turn a successful launch into a lasting partnership?",
-
-      choices: [
         {
-          text: "Celebrate go-live, close the project, and move on to the next customer.",
-          scores: { Implementation: 0, Training: 0, Support: 0, "Customer Success": 0 },
-          feedback:
-            "A launch is a milestone, not the finish line. Without follow-through, adoption and value can fade.",
-          consequence:
-            "The district wonders who to call when its next big goal arrives."
+          character: "MAYOR ELEANOR PRUITT",
+          text: "You've done something wonderful here. But I don't want this to be a one-week miracle. We need to know our schools are successful next month, next semester, and next year."
         },
         {
-          text: "Schedule a quarterly business review focused only on open tickets.",
-          scores: { Implementation: 0, Training: 0, Support: 2, "Customer Success": 2 },
-          feedback:
-            "Operational health matters, but a success conversation should connect product use to customer outcomes and future priorities.",
-          consequence:
-            "The meeting ends in 12 minutes. The superintendent still has questions about impact."
+          character: "JACK FROST",
+          text: "The system is working. But are people actually getting value from it? Are they comfortable? Are they using the tools that could make their lives easier?"
         },
         {
-          text: "Review agreed success measures, adoption and outcomes; gather feedback; identify next goals; and create a shared improvement plan.",
-          scores: { Implementation: 2, Training: 2, Support: 2, "Customer Success": 10 },
-          feedback:
-            "That's customer success: measurable value, a listening partnership, and a forward-looking plan tied to the customer's goals.",
-          consequence:
-            "The district commits to a second-semester roadmap and offers to be a reference."
-        },
-        {
-          text: "Offer every new feature at no cost to keep the district happy.",
-          scores: { Implementation: 1, Training: 0, Support: 0, "Customer Success": 2 },
-          feedback:
-            "More features do not automatically mean more value. Start with the customer's goals and prioritize what will help them achieve those outcomes.",
-          consequence:
-            "The district receives a very long feature list and asks for a simpler plan."
+          character: "MAYOR ELEANOR PRUITT",
+          text: "So, Executive. What's the plan for keeping Snowflake Falls happy?"
         }
       ],
-
-      twist:
-        "At the New Year's Eve celebration, Mayor Eleanor reveals that the town's annual Snowflake Festival will now use GradeMark for its volunteer sign-ups. Jamie and Alex exchange a look — and maybe, just maybe, a little holiday magic."
+      question: "The launch is behind you. How do you make sure the customer continues to succeed?",
+      choices: [
+        {
+          title: "Build a customer success plan",
+          description: "Establish goals, adoption measures, regular check-ins, success milestones, and a roadmap tied to the district's priorities.",
+          scores: [3, 3, 3, 7],
+          feedback: "That's customer success. You move beyond resolving issues and focus on outcomes, adoption, relationships, and long-term value.",
+          outcome: "The superintendent agrees to quarterly success reviews. Mrs. Claus asks if you can add a reindeer wellness dashboard."
+        },
+        {
+          title: "Wait for the customer to ask for help",
+          description: "The system is live. Let the district reach out if they need anything.",
+          scores: [1, 1, 3, 2],
+          feedback: "Responsive support is important, but customer success requires a proactive relationship. Silence doesn't necessarily mean satisfaction.",
+          outcome: "The district goes quiet. You later discover that half the teachers are still using sticky notes."
+        },
+        {
+          title: "Schedule a quarterly business review",
+          description: "Review performance, challenges, usage, and future opportunities with district leadership.",
+          scores: [2, 2, 3, 6],
+          feedback: "A good step toward a strategic relationship. Make sure the discussion focuses on customer outcomes, not just a presentation of activity and metrics.",
+          outcome: "The superintendent brings a list of goals for the next semester. You realize this relationship is just getting started."
+        },
+        {
+          title: "Offer additional product features",
+          description: "Show the district everything else the platform can do and encourage them to use more features.",
+          scores: [2, 3, 2, 4],
+          feedback: "Product knowledge can create opportunities, but features should connect to a real customer need. Adoption without purpose isn't success.",
+          outcome: "The district is intrigued by the new features. Mrs. Claus asks if one of them can automate gift wrapping."
+        }
+      ]
     }
   ];
 
-  const state = {
-    scene: 0,
-    total: 0,
-    scores: Object.fromEntries(categories.map(c => [c, 0])),
-    answers: [],
-    seconds: 40,
-    timer: null,
-    locked: false
-  };
+  // ------------------------------------------------------------
+  // 4. FIND THE GAME CONTAINER
+  // ------------------------------------------------------------
 
-  const $ = selector => document.querySelector(selector);
+  let app = document.querySelector(
+    "#game, #game-container, #app, main"
+  );
 
-  function mount() {
-    return $("#game") ||
-           $("#game-container") ||
-           $("#app") ||
-           $("main") ||
-           document.body;
+  if (!app) {
+    app = document.createElement("div");
+    app.id = "snowflake-falls-game";
+    document.body.appendChild(app);
   }
 
-  function addStyles() {
-    if ($("#snowflake-script-styles")) return;
+  app.innerHTML = "";
+  app.classList.add("snowflake-game");
 
-    const style = document.createElement("style");
-    style.id = "snowflake-script-styles";
+  // ------------------------------------------------------------
+  // 5. ADD THE GAME STYLES
+  // ------------------------------------------------------------
 
-    style.textContent = `
-      .sf-wrap {
-        max-width: 900px;
-        margin: auto;
-        padding: 24px;
-        color: #243044;
-        font-family: Georgia, serif;
+  const style = document.createElement("style");
+  style.id = "snowflake-game-styles";
+
+  style.textContent = `
+    .snowflake-game {
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #243447;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .snowflake-game * {
+      box-sizing: border-box;
+    }
+
+    .sf-screen {
+      background: #fffdf9;
+      border: 1px solid #e8e1d7;
+      border-radius: 18px;
+      padding: 36px;
+      box-shadow: 0 12px 35px rgba(24, 47, 66, .10);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .sf-brand {
+      color: #a63d40;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .sf-title {
+      color: #173b50;
+      font-size: clamp(38px, 7vw, 62px);
+      line-height: 1.05;
+      margin: 8px 0 12px;
+    }
+
+    .sf-subtitle {
+      color: #a63d40;
+      font-size: 18px;
+      font-style: italic;
+      margin-bottom: 26px;
+    }
+
+    .sf-snow {
+      font-size: 34px;
+      letter-spacing: 12px;
+      margin: 10px 0 22px;
+    }
+
+    .sf-letter {
+      background: #fffaf0;
+      border: 1px solid #e8d9bb;
+      border-radius: 10px;
+      padding: 28px;
+      margin: 25px auto;
+      max-width: 720px;
+      text-align: left;
+      box-shadow: 0 5px 15px rgba(0,0,0,.04);
+    }
+
+    .sf-letter h2 {
+      color: #9d393e;
+      text-align: center;
+      font-size: 27px;
+      margin: 0 0 24px;
+    }
+
+    .sf-letter p {
+      font-size: 17px;
+      line-height: 1.8;
+      margin: 0 0 18px;
+    }
+
+    .sf-input {
+      width: 100%;
+      max-width: 390px;
+      display: block;
+      margin: 14px auto 18px;
+      padding: 15px;
+      border: 1px solid #c9d3d8;
+      border-radius: 8px;
+      font-size: 17px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .sf-button {
+      background: #a63d40;
+      color: white;
+      border: none;
+      padding: 15px 27px;
+      border-radius: 7px;
+      font-size: 15px;
+      font-weight: bold;
+      letter-spacing: .5px;
+      cursor: pointer;
+      transition: .2s;
+      font-family: Arial, sans-serif;
+      margin: 7px;
+    }
+
+    .sf-button:hover {
+      background: #7e292e;
+      transform: translateY(-1px);
+    }
+
+    .sf-button.secondary {
+      background: #244c61;
+    }
+
+    .sf-button.secondary:hover {
+      background: #173b50;
+    }
+
+    .sf-scene-header {
+      background: #173b50;
+      color: white;
+      padding: 26px;
+      border-radius: 12px;
+      margin-bottom: 22px;
+    }
+
+    .sf-scene-number {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+
+    .sf-scene-title {
+      font-size: 35px;
+      margin: 9px 0;
+      color: white;
+    }
+
+    .sf-location {
+      color: #f0d9a9;
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    .sf-scene-icon {
+      font-size: 44px;
+      margin: 15px 0;
+    }
+
+    .sf-story {
+      font-size: 17px;
+      line-height: 1.75;
+      text-align: left;
+      margin: 22px 0;
+    }
+
+    .sf-dialogue {
+      text-align: left;
+      background: #f4f7f8;
+      border-left: 4px solid #a63d40;
+      padding: 17px 20px;
+      margin: 13px 0;
+      border-radius: 5px;
+    }
+
+    .sf-character {
+      font-family: Arial, sans-serif;
+      color: #a63d40;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-bottom: 7px;
+    }
+
+    .sf-dialogue p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .sf-question {
+      color: #173b50;
+      font-size: 23px;
+      line-height: 1.4;
+      margin: 28px 0 20px;
+    }
+
+    .sf-timer-wrap {
+      background: #e8edf0;
+      height: 9px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 12px 0 8px;
+    }
+
+    .sf-timer-bar {
+      background: #a63d40;
+      height: 100%;
+      width: 100%;
+      transition: width 1s linear;
+    }
+
+    .sf-timer-label {
+      font-family: Arial, sans-serif;
+      color: #657681;
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .sf-choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+      margin: 20px 0;
+    }
+
+    .sf-choice {
+      background: white;
+      border: 1px solid #d6dfe3;
+      border-radius: 10px;
+      padding: 18px;
+      text-align: left;
+      cursor: pointer;
+      transition: .2s;
+      color: #243447;
+      font-family: inherit;
+    }
+
+    .sf-choice:hover {
+      border-color: #a63d40;
+      background: #fff8f5;
+      transform: translateY(-2px);
+    }
+
+    .sf-choice:disabled {
+      cursor: default;
+      opacity: .75;
+    }
+
+    .sf-choice strong {
+      display: block;
+      color: #173b50;
+      font-size: 16px;
+      margin-bottom: 9px;
+    }
+
+    .sf-choice span {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #5c6b73;
+    }
+
+    .sf-feedback {
+      background: #f1f7f2;
+      border: 1px solid #c8dfcd;
+      border-radius: 10px;
+      padding: 23px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .sf-feedback h3 {
+      color: #315f3e;
+      margin: 0 0 10px;
+      font-size: 21px;
+    }
+
+    .sf-feedback p {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .sf-score-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .sf-score-pill {
+      background: #edf2f4;
+      border-radius: 20px;
+      padding: 9px 13px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .sf-result-total {
+      font-size: 65px;
+      color: #a63d40;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .sf-result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .sf-result-card {
+      background: #f1f5f6;
+      border-radius: 9px;
+      padding: 18px;
+    }
+
+    .sf-result-card .icon {
+      font-size: 25px;
+    }
+
+    .sf-result-card h4 {
+      color: #173b50;
+      margin: 8px 0;
+      font-size: 15px;
+    }
+
+    .sf-result-card strong {
+      font-size: 26px;
+      color: #a63d40;
+    }
+
+    .sf-recap {
+      text-align: left;
+      margin: 25px 0;
+    }
+
+    .sf-recap-item {
+      border-bottom: 1px solid #e4e8e9;
+      padding: 13px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .sf-footer {
+      color: #8b969b;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 650px) {
+      .sf-screen {
+        padding: 20px;
       }
 
-      .sf-card {
-        background: #fffdf8;
-        border: 1px solid #e7dccb;
-        border-radius: 16px;
-        padding: clamp(20px,4vw,36px);
-        box-shadow: 0 12px 35px #14213a12;
+      .sf-choices,
+      .sf-result-grid {
+        grid-template-columns: 1fr;
       }
 
-      .sf-kicker {
-        letter-spacing: .16em;
-        text-transform: uppercase;
-        font: 700 11px Arial,sans-serif;
-        color: #a33b45;
+      .sf-letter {
+        padding: 20px;
       }
 
-      .sf-title {
-        font-size: clamp(32px,6vw,52px);
-        line-height: 1.05;
-        margin: 10px 0;
-        color: #17324d;
+      .sf-scene-title {
+        font-size: 28px;
       }
+    }
+  `;
 
-      .sf-sub {
-        color: #6b7280;
-        font: 14px Arial,sans-serif;
-      }
+  document.head.appendChild(style);
 
-      .sf-scene {
-        font: 700 12px Arial,sans-serif;
-        color: #a33b45;
-        letter-spacing: .1em;
-      }
+  // ------------------------------------------------------------
+  // 6. HELPER FUNCTIONS
+  // ------------------------------------------------------------
 
-      .sf-dialogue {
-        margin: 20px 0;
-        padding: 14px 16px;
-        background: #f6f2ea;
-        border-left: 3px solid #b64c55;
-        border-radius: 8px;
-      }
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[char]));
+  }
 
-      .sf-line {
-        margin: 10px 0;
-        line-height: 1.45;
-      }
+  function stopTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+  }
 
-      .sf-speaker {
-        font: 700 11px Arial,sans-serif;
-        letter-spacing: .08em;
-        color: #a33b45;
-      }
-
-      .sf-question {
-        font-size: 22px;
-        line-height: 1.3;
-        color: #17324d;
-        margin: 22px 0 14px;
-      }
-
-      .sf-choice {
-        display: block;
-        width: 100%;
-        text-align: left;
-        margin: 10px 0;
-        padding: 14px 16px;
-        border: 1px solid #d9d4ca;
-        border-radius: 10px;
-        background: white;
-        color: #243044;
-        font: 15px/1.4 Arial,sans-serif;
-        cursor: pointer;
-      }
-
-      .sf-choice:hover {
-        border-color: #a33b45;
-        background: #fff9f7;
-      }
-
-      .sf-choice:disabled {
-        cursor: default;
-        opacity: .8;
-      }
-
-      .sf-choice.sf-selected {
-        border: 2px solid #2f765d;
-        background: #f1faf5;
-      }
-
-      .sf-btn {
-        border: 0;
-        border-radius: 999px;
-        padding: 13px 22px;
-        background: #a33b45;
-        color: white;
-        font: 700 13px Arial,sans-serif;
-        cursor: pointer;
-      }
-
-      .sf-btn:hover {
-        background: #842d37;
-      }
-
-      .sf-timer {
-        float: right;
-        font: 700 13px Arial,sans-serif;
-        color: #a33b45;
-      }
-
-      .sf-meter {
-        height: 7px;
-        background: #eee7dd;
-        border-radius: 9px;
-        overflow: hidden;
-        margin: 16px 0 24px;
-      }
-
-      .sf-meter span {
-        display: block;
-        height: 100%;
-        background: #a33b45;
-        transition: width .3s;
-      }
-
-      .sf-feedback {
-        margin: 18px 0;
-        padding: 16px;
-        border-radius: 10px;
-        background: #f1f7f3;
-        font: 14px/1.5 Arial,sans-serif;
-      }
-
-      .sf-twist {
-        margin: 18px 0;
-        padding: 16px;
-        background: #fff5e8;
-        border-radius: 10px;
-        line-height: 1.5;
-      }
-
-      .sf-scoregrid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(145px,1fr));
-        gap: 12px;
-        margin: 22px 0;
-      }
-
-      .sf-score {
-        padding: 16px;
-        background: #f6f2ea;
-        border-radius: 12px;
-      }
-
-      .sf-score strong {
-        display: block;
-        font: 700 24px Arial,sans-serif;
-        color: #17324d;
-        margin: 6px 0;
-      }
-
-      .sf-score small {
-        display: block;
-        font: 12px/1.4 Arial,sans-serif;
-        color: #6b7280;
-      }
-
-      .sf-footer {
-        font: 12px Arial,sans-serif;
-        color: #7a7a7a;
-        text-align: center;
-        margin-top: 22px;
-      }
-
-      @media(max-width:560px) {
-        .sf-wrap { padding: 12px; }
-        .sf-title { font-size: 34px; }
-      }
+  function renderFooter() {
+    return `
+      <div class="sf-footer">
+        A GRADEMARK STUDIOS CHRISTMAS EXPERIENCE
+        <br>SNOWFLAKE FALLS · WHERE EVERY CUSTOMER MATTERS
+      </div>
     `;
-
-    document.head.appendChild(style);
   }
 
-  function renderIntro() {
-    mount().innerHTML = `
-      <div class="sf-wrap">
-        <div class="sf-card">
+  // ------------------------------------------------------------
+  // 7. OPENING SCREEN
+  // ------------------------------------------------------------
 
-          <div class="sf-kicker">
-            GradeMark Studios presents
-          </div>
+  function renderOpening() {
+    stopTimer();
 
-          <h1 class="sf-title">Snowflake Falls</h1>
-
-          <p class="sf-sub">
-            A holiday story about big expectations,
-            brave decisions, and the magic of great customer experience.
-          </p>
-
-          <div class="sf-dialogue">
-
-            <div class="sf-speaker">
-              A LETTER FROM MAYOR ELEANOR PRUITT
-            </div>
-
-            <p>Dear friends,</p>
-
-            <p>
-              Welcome to Snowflake Falls, where the snow
-              is always falling, the cocoa is always warm,
-              and the town's biggest project is about to get
-              a very public holiday deadline.
-            </p>
-
-            <p>
-              Our schools are counting on GradeMark to make
-              life easier for students, families, teachers,
-              and staff.
-            </p>
-
-            <p>
-              The journey from kickoff to lasting success
-              will take more than a ribbon-cutting.
-              It will take listening, teamwork, thoughtful
-              decisions, and a little Christmas spirit.
-            </p>
-
-            <p>
-              We hope you'll help us make this the most
-              wonderful implementation our town has ever seen.
-            </p>
-
-            <p>
-              With warm wishes,<br>
-              <strong>Mayor Eleanor Pruitt</strong>
-            </p>
-
-          </div>
-
-          <p>
-            <strong>Your mission:</strong>
-            Guide the executive team through five connected
-            moments. Each decision affects the district's
-            experience and your final score across four CX disciplines.
-          </p>
-
-          <p class="sf-sub">
-            Five scenes · 40 seconds per decision ·
-            Choose the response you'd want your team to deliver.
-          </p>
-
-          <button class="sf-btn" id="sf-start">
-            Start the movie
-          </button>
-
+    app.innerHTML = `
+      <div class="sf-screen">
+        <div class="sf-brand">GradeMark Studios Presents</div>
+        <div class="sf-snow">❄️ ✨ ❄️</div>
+        <h1 class="sf-title">Snowflake Falls</h1>
+        <div class="sf-subtitle">
+          A Christmas story about coming home... and saving the customer experience.
         </div>
 
-        <div class="sf-footer">
-          A GradeMark Studios holiday production
+        <div class="sf-letter">
+          <h2>${openingLetter.title}</h2>
+          ${openingLetter.paragraphs.map(p => `<p>${escapeHTML(p)}</p>`).join("")}
+          <p style="text-align:center;font-size:25px;margin-top:25px;">❄️</p>
         </div>
+
+        <h3 style="color:#173b50;font-size:22px;">
+          ${openingLetter.prompt}
+        </h3>
+
+        <input
+          class="sf-input"
+          id="sf-player-name"
+          type="text"
+          maxlength="35"
+          placeholder="Enter your name..."
+          autocomplete="given-name"
+        >
+
+        <button class="sf-button" id="sf-start">
+          Come Home to Snowflake Falls →
+        </button>
+
+        <div style="color:#78878e;font-size:13px;margin-top:15px;">
+          Five scenes. Five decisions. One very important Christmas.
+        </div>
+
+        ${renderFooter()}
       </div>
     `;
 
-    $("#sf-start").addEventListener("click", renderScene);
+    const input = document.getElementById("sf-player-name");
+    const button = document.getElementById("sf-start");
+
+    button.addEventListener("click", () => {
+      const enteredName = input.value.trim();
+
+      if (!enteredName) {
+        input.focus();
+        input.placeholder = "Your name is required, Executive!";
+        return;
+      }
+
+      playerName = enteredName;
+      currentScene = 0;
+      scores = [0, 0, 0, 0];
+      answers = [];
+
+      renderScene();
+    });
+
+    input.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        button.click();
+      }
+    });
+
+    input.focus();
   }
 
+  // ------------------------------------------------------------
+  // 8. SCENE SCREEN
+  // ------------------------------------------------------------
+
   function renderScene() {
-    clearInterval(state.timer);
+    stopTimer();
+    locked = false;
+    timeLeft = DECISION_TIME;
 
-    state.seconds = 40;
-    state.locked = false;
+    const scene = scenes[currentScene];
 
-    const scene = scenes[state.scene];
+    app.innerHTML = `
+      <div class="sf-screen">
 
-    mount().innerHTML = `
-      <div class="sf-wrap">
-        <div class="sf-card">
+        <div class="sf-brand">GradeMark Studios Presents</div>
 
-          <div class="sf-scene">
-            ${scene.chapter}
-            <span class="sf-timer" id="sf-timer">40s</span>
+        <div class="sf-scene-header">
+          <div class="sf-scene-number">
+            Chapter ${currentScene + 1} of ${scenes.length}
           </div>
+          <h2 class="sf-scene-title">${scene.title}</h2>
+          <div class="sf-location">${scene.location}</div>
+        </div>
 
-          <div class="sf-meter">
-            <span style="width:${(state.scene / scenes.length) * 100}%"></span>
-          </div>
+        <div class="sf-scene-icon">${scene.image}</div>
 
-          <div class="sf-kicker">${scene.setting}</div>
+        <div style="font-family:Arial,sans-serif;color:#a63d40;font-size:11px;font-weight:bold;letter-spacing:2px;">
+          ${scene.subtitle.toUpperCase()}
+        </div>
 
-          <h1 class="sf-title">${scene.title}</h1>
+        <div class="sf-story">
+          ${scene.setup}
+        </div>
 
-          <p>${scene.intro}</p>
-
+        ${scene.dialogue.map(line => `
           <div class="sf-dialogue">
-            ${scene.dialogue.map(([speaker,line]) => `
-              <div class="sf-line">
-                <div class="sf-speaker">${speaker}</div>
-                ${line}
-              </div>
-            `).join("")}
+            <div class="sf-character">${line.character}</div>
+            <p>${line.text}</p>
           </div>
+        `).join("")}
 
-          <div class="sf-question">
-            ${scene.question}
-          </div>
+        <h3 class="sf-question">${scene.question}</h3>
 
-          <div id="sf-choices">
-            ${scene.choices.map((choice,i) => `
-              <button class="sf-choice" data-choice="${i}">
-                ${String.fromCharCode(65+i)}. ${choice.text}
-              </button>
-            `).join("")}
-          </div>
-
-          <p class="sf-sub">
-            CX focus: ${scene.category}
-          </p>
-
+        <div class="sf-timer-label">
+          Time remaining: <strong id="sf-time">${timeLeft}</strong> seconds
         </div>
 
-        <div class="sf-footer">
-          Snowflake Falls · Scene ${state.scene+1} of ${scenes.length}
+        <div class="sf-timer-wrap">
+          <div class="sf-timer-bar" id="sf-timer-bar"></div>
         </div>
+
+        <div class="sf-choices" id="sf-choices">
+          ${scene.choices.map((choice, index) => `
+            <button class="sf-choice" data-choice="${index}">
+              <strong>${String.fromCharCode(65 + index)}. ${choice.title}</strong>
+              <span>${choice.description}</span>
+            </button>
+          `).join("")}
+        </div>
+
+        <div id="sf-feedback-area"></div>
+
+        ${renderFooter()}
       </div>
     `;
 
     document.querySelectorAll(".sf-choice").forEach(button => {
       button.addEventListener("click", () => {
-        choose(Number(button.dataset.choice));
+        chooseOption(Number(button.dataset.choice), false);
       });
     });
 
-    state.timer = setInterval(() => {
-      state.seconds--;
+    startTimer();
+  }
 
-      const timer = $("#sf-timer");
+  // ------------------------------------------------------------
+  // 9. TIMER
+  // ------------------------------------------------------------
 
-      if (timer) {
-        timer.textContent = `${state.seconds}s`;
+  function startTimer() {
+    stopTimer();
+
+    timerInterval = setInterval(() => {
+      if (locked) {
+        stopTimer();
+        return;
       }
 
-      if (state.seconds <= 0) {
-        clearInterval(state.timer);
+      timeLeft--;
 
-        if (!state.locked) {
-          choose(-1);
-        }
+      const timeDisplay = document.getElementById("sf-time");
+      const timerBar = document.getElementById("sf-timer-bar");
+
+      if (timeDisplay) {
+        timeDisplay.textContent = timeLeft;
+      }
+
+      if (timerBar) {
+        timerBar.style.width =
+          Math.max(0, (timeLeft / DECISION_TIME) * 100) + "%";
+      }
+
+      if (timeLeft <= 0) {
+        stopTimer();
+        chooseOption(0, true);
       }
     }, 1000);
   }
 
-  function choose(index) {
-    if (state.locked) return;
+  // ------------------------------------------------------------
+  // 10. PROCESS THE PLAYER'S CHOICE
+  // ------------------------------------------------------------
 
-    state.locked = true;
-    clearInterval(state.timer);
+  function chooseOption(choiceIndex, timedOut) {
+    if (locked) return;
 
-    const scene = scenes[state.scene];
-    const choice = index < 0 ? null : scene.choices[index];
+    locked = true;
+    stopTimer();
 
-    document.querySelectorAll(".sf-choice").forEach((button,i) => {
-      button.disabled = true;
+    const scene = scenes[currentScene];
+    const choice = scene.choices[choiceIndex];
 
-      if (i === index) {
-        button.classList.add("sf-selected");
-      }
+    choice.scores.forEach((points, index) => {
+      scores[index] += points;
     });
 
-    if (choice) {
-      categories.forEach(category => {
-        state.scores[category] += choice.scores[category] || 0;
-      });
-
-      state.total += Object.values(choice.scores)
-        .reduce((sum,value) => sum + value,0);
-    }
-
-    state.answers.push({
+    answers.push({
       scene: scene.title,
-      category: scene.category,
-      choice: choice
-        ? choice.text
-        : "Time expired — no decision selected",
-      feedback: choice
-        ? choice.feedback
-        : "The clock ran out. Timely decisions and clear ownership matter.",
-      consequence: choice
-        ? choice.consequence
-        : "The team moves forward without a clear decision."
+      choice: choice.title,
+      feedback: choice.feedback,
+      outcome: choice.outcome,
+      timedOut
     });
 
-    const feedback = choice
-      ? choice.feedback
-      : "The clock ran out. Timely decisions and clear ownership matter.";
+    document.querySelectorAll(".sf-choice").forEach(button => {
+      button.disabled = true;
+    });
 
-    const consequence = choice
-      ? choice.consequence
-      : "The team moves forward without a clear decision.";
+    const feedbackArea = document.getElementById("sf-feedback-area");
 
-    const box = document.createElement("div");
+    feedbackArea.innerHTML = `
+      <div class="sf-feedback">
+        <h3>${timedOut ? "⏰ Time's up!" : "✨ Your decision is in!"}</h3>
 
-    box.className = "sf-feedback";
+        <p>
+          <strong>Your move:</strong> ${choice.title}
+        </p>
 
-    box.innerHTML = `
-      <strong>${choice ? "Your decision" : "Time's up!"}</strong>
+        <p>${choice.feedback}</p>
 
-      <p>${feedback}</p>
+        <p>
+          <strong>And then...</strong> ${choice.outcome}
+        </p>
 
-      <strong>What happens next:</strong>
+        <div class="sf-score-strip">
+          ${categories.map((category, index) => `
+            <div class="sf-score-pill">
+              ${categoryIcons[index]} ${category}: +${choice.scores[index]}
+            </div>
+          `).join("")}
+        </div>
 
-      <p>${consequence}</p>
-
-      <div class="sf-twist">
-        <strong>THE PLOT THICKENS…</strong>
-        <br>
-        ${scene.twist}
+        <div style="text-align:center;margin-top:20px;">
+          <button class="sf-button" id="sf-continue">
+            ${currentScene === scenes.length - 1
+              ? "See How Our Story Ends →"
+              : "Continue the Story →"}
+          </button>
+        </div>
       </div>
-
-      <button class="sf-btn" id="sf-next">
-        ${state.scene === scenes.length-1
-          ? "See the final score"
-          : "Continue the story"}
-      </button>
     `;
 
-    $("#sf-choices").after(box);
+    document.getElementById("sf-continue").addEventListener("click", () => {
+      currentScene++;
 
-    $("#sf-next").addEventListener("click", () => {
-      state.scene++;
-
-      if (state.scene < scenes.length) {
+      if (currentScene < scenes.length) {
         renderScene();
       } else {
         renderResults();
@@ -813,176 +1014,149 @@
     });
   }
 
+  // ------------------------------------------------------------
+  // 11. FINAL RESULTS
+  // ------------------------------------------------------------
+
   function renderResults() {
-    const maxTotal = 80;
-    const total = state.total;
-    const percentage = Math.round((total / maxTotal) * 100);
+    stopTimer();
 
-    let rating;
+    const totalScore = scores.reduce((sum, value) => sum + value, 0);
+    const percentage = Math.round((totalScore / MAX_SCORE) * 100);
 
-    if (percentage >= 85) {
-      rating = "The Holiday CX Hero";
-    } else if (percentage >= 65) {
-      rating = "The Trusted Partner";
-    } else if (percentage >= 40) {
-      rating = "The Goodwill Builder";
+    let resultTitle;
+    let resultMessage;
+
+    if (totalScore >= 72) {
+      resultTitle = "The Christmas Miracle";
+      resultMessage =
+        "Snowflake Falls is saved! You've brought the town together through thoughtful decisions, strong customer experiences, and a little Christmas magic. Mayor Pruitt is already asking you to stay through next year.";
+    } else if (totalScore >= 60) {
+      resultTitle = "The Holiday Hero";
+      resultMessage =
+        "The festival is on! You've made some excellent decisions and helped the town find its footing. There are a few opportunities to make the customer experience even stronger, but Snowflake Falls has a reason to celebrate.";
+    } else if (totalScore >= 45) {
+      resultTitle = "A Christmas Comeback";
+      resultMessage =
+        "The town made it through Christmas, but there is work left to do. A few stronger connections across implementation, training, support, and customer success could make all the difference next time.";
     } else {
-      rating = "The Snow-Day Rookie";
+      resultTitle = "A Snowy Situation";
+      resultMessage =
+        "Well... it was a memorable Christmas. Snowflake Falls still needs a little help. The good news? Every great customer experience starts with learning, adapting, and trying again.";
     }
 
-    const summaries = {
-      Implementation:
-        "Align on outcomes, scope, owners, data quality, and launch readiness.",
+    app.innerHTML = `
+      <div class="sf-screen">
 
-      Training:
-        "Enable each role with relevant practice, reinforcement, and readiness checks.",
+        <div class="sf-brand">GradeMark Studios Presents</div>
+        <div class="sf-snow">❄️ 🎄 ❄️</div>
 
-      Support:
-        "Respond with empathy, verified information, ownership, and predictable updates.",
+        <h1 class="sf-title" style="font-size:42px;">
+          The End... or a New Beginning?
+        </h1>
 
-      "Customer Success":
-        "Measure customer outcomes, listen to feedback, and plan the next chapter together."
-    };
+        <div class="sf-subtitle">
+          A Snowflake Falls Christmas Story
+        </div>
 
-    const scoreCards = categories.map(category => `
-      <div class="sf-score">
-
-        <span>${category}</span>
-
-        <strong>${state.scores[category]} pts</strong>
-
-        <small>${summaries[category]}</small>
-
-      </div>
-    `).join("");
-
-    const recap = state.answers.map((answer,i) => `
-      <p>
-        <strong>${i+1}. ${answer.scene}</strong>
-        <br>
-        <span class="sf-sub">${answer.choice}</span>
-      </p>
-    `).join("");
-
-    mount().innerHTML = `
-      <div class="sf-wrap">
-        <div class="sf-card">
-
-          <div class="sf-kicker">
-            GradeMark Studios · The End
-          </div>
-
-          <h1 class="sf-title">
-            A Snowflake Falls Christmas
-          </h1>
-
-          <p class="sf-sub">
-            Your executive team's customer experience report
-          </p>
-
-          <div class="sf-scoregrid">
-
-            <div class="sf-score">
-              <span>Overall score</span>
-
-              <strong>${total} / ${maxTotal}</strong>
-
-              <small>${percentage}% · ${rating}</small>
-            </div>
-
-            ${scoreCards}
-
-          </div>
-
-          <h2>What your team demonstrated</h2>
+        <div class="sf-letter">
+          <h2>${resultTitle}</h2>
 
           <p>
-            ${rating}. The strongest customer experiences
-            happen when implementation, training, support,
-            and customer success work as one continuous journey —
-            not as separate departments or disconnected moments.
+            Dear ${escapeHTML(playerName)},
           </p>
 
-          <h2>Your movie recap</h2>
+          <p>${resultMessage}</p>
 
-          ${recap}
+          <p>
+            Thanks to you, the Snowflake Falls Christmas Festival is
+            officially back on. The town square is glowing, the choir
+            is singing, and Mrs. Claus has finally received her attendance
+            reports.
+          </p>
 
-          <div class="sf-dialogue">
+          <p>
+            But more importantly, the town has learned something:
+            a great customer experience doesn't happen in one department.
+            It takes all of us.
+          </p>
 
-            <div class="sf-speaker">
-              A FINAL LETTER FROM MAYOR ELEANOR PRUITT
+          <p style="text-align:right;margin-top:25px;">
+            With gratitude and Christmas cheer,<br>
+            <strong>Mayor Eleanor Pruitt</strong><br>
+            Snowflake Falls
+          </p>
+        </div>
+
+        <h2 style="color:#173b50;">Your Executive Scorecard</h2>
+
+        <div class="sf-result-total">${totalScore}<span style="font-size:25px;"> / ${MAX_SCORE}</span></div>
+        <div style="color:#a63d40;font-weight:bold;font-size:17px;">
+          ${percentage}% CX Score
+        </div>
+
+        <div class="sf-result-grid">
+          ${categories.map((category, index) => `
+            <div class="sf-result-card">
+              <div class="icon">${categoryIcons[index]}</div>
+              <h4>${category}</h4>
+              <strong>${scores[index]}</strong>
+              <div style="font-size:11px;color:#77858b;">
+                Points earned
+              </div>
             </div>
-
-            <p>Dear friends,</p>
-
-            <p>
-              They say the magic of Snowflake Falls isn't
-              in the snow, the lights, or even the cocoa.
-              It's in the people who show up for one another
-              when things get complicated.
-            </p>
-
-            <p>
-              You helped our schools move from a big idea
-              to a thoughtful launch, gave our staff the
-              confidence to learn, stood beside our families
-              when they needed help, and reminded us that
-              success is measured by the difference we make
-              long after launch day.
-            </p>
-
-            <p>
-              On behalf of our entire town, thank you for
-              making this season brighter.
-            </p>
-
-            <p>
-              May your projects be well-scoped, your data
-              be clean, your training be practical, and
-              your support queue be merry and very, very quiet.
-            </p>
-
-            <p>
-              With gratitude and holiday cheer,<br>
-              <strong>Mayor Eleanor Pruitt</strong>
-            </p>
-
-          </div>
-
-          <button class="sf-btn" id="sf-replay">
-            Play again
-          </button>
-
+          `).join("")}
         </div>
 
-        <div class="sf-footer">
-          The End · Or perhaps just the beginning…
+        <div class="sf-recap">
+          <h3 style="color:#173b50;">Your Story, Scene by Scene</h3>
+
+          ${answers.map((answer, index) => `
+            <div class="sf-recap-item">
+              <strong>Scene ${index + 1}: ${answer.scene}</strong><br>
+              Your decision: ${answer.choice}
+              ${answer.timedOut ? "<br><em>Time expired before a decision was made.</em>" : ""}
+            </div>
+          `).join("")}
         </div>
+
+        <div class="sf-letter">
+          <h2>A Little Christmas Reminder</h2>
+          <p>
+            Implementation gets customers started.
+            Training helps them succeed.
+            Support is there when things go wrong.
+            Customer Success makes sure the relationship keeps growing.
+          </p>
+          <p>
+            The magic happens when all four work together.
+          </p>
+          <p style="text-align:center;font-size:24px;">
+            Merry Christmas from Snowflake Falls! 🎄
+          </p>
+        </div>
+
+        <button class="sf-button" id="sf-replay">
+          Play Again ↻
+        </button>
+
+        ${renderFooter()}
       </div>
     `;
 
-    $("#sf-replay").addEventListener("click", () => {
-      state.scene = 0;
-      state.total = 0;
-      state.answers = [];
-
-      state.scores = Object.fromEntries(
-        categories.map(category => [category,0])
-      );
-
-      renderIntro();
+    document.getElementById("sf-replay").addEventListener("click", () => {
+      playerName = "";
+      currentScene = 0;
+      scores = [0, 0, 0, 0];
+      answers = [];
+      renderOpening();
     });
   }
 
-  function init() {
-    addStyles();
-    renderIntro();
-  }
+  // ------------------------------------------------------------
+  // 12. START THE GAME
+  // ------------------------------------------------------------
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded",init);
-  } else {
-    init();
-  }
+  renderOpening();
 
 })();
