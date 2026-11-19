@@ -512,6 +512,10 @@ input[type="text"]:focus {
   border-color: var(--cranberry);
 }
 
+#twist-text {
+  white-space: pre-line;
+}
+
 .twist-card h2 {
   font-size: clamp(1.4rem, 4vw, 1.9rem);
 }
