@@ -14,37 +14,16 @@
     <!-- Screen 1: Movie Poster -->
     <section class="screen active" id="screen-poster">
       <div class="poster">
-        <svg class="town-illustration" viewBox="0 0 800 300" aria-hidden="true">
-          <rect width="800" height="300" fill="#1f3d2b"/>
-          <circle cx="620" cy="70" r="40" fill="#f6ecd2"/>
-          <!-- Hills -->
-          <path d="M0 200 Q200 140 400 200 T800 200 V300 H0Z" fill="#fff"/>
-          <!-- Trees -->
-          <g id="trees"></g>
-          <!-- Storefronts -->
-          <rect x="120" y="150" width="110" height="110" fill="#8b2e2e"/>
-          <polygon points="110,150 175,110 240,150" fill="#fff"/>
-          <rect x="150" y="190" width="40" height="70" fill="#f6ecd2"/>
-          <rect x="300" y="140" width="130" height="120" fill="#c9a24a"/>
-          <polygon points="290,140 365,95 440,140" fill="#fff"/>
-          <rect x="330" y="185" width="60" height="75" fill="#1f3d2b"/>
-          <rect x="500" y="160" width="100" height="100" fill="#f6ecd2"/>
-          <polygon points="490,160 550,120 610,160" fill="#8b2e2e"/>
-          <rect x="530" y="200" width="40" height="60" fill="#1f3d2b"/>
-          <!-- Christmas lights -->
-          <g class="lights">
-            <circle cx="150" cy="180" r="4" fill="#ffd46b"/>
-            <circle cx="200" cy="180" r="4" fill="#ff6b6b"/>
-            <circle cx="350" cy="175" r="4" fill="#ffd46b"/>
-            <circle cx="400" cy="175" r="4" fill="#ff6b6b"/>
-            <circle cx="530" cy="190" r="4" fill="#ffd46b"/>
-            <circle cx="575" cy="190" r="4" fill="#ff6b6b"/>
-          </g>
-        </svg>
+        <p class="studio-badge">Cranberry Crest Pictures <span>presents</span></p>
 
-        <p class="kicker">A Holiday Comedy in Five Challenges</p>
+        <div class="poster-frame">
+          <img class="town-illustration" src="cover.jpg" alt="A smiling couple in bright winter coats laughing together as snow falls around them in a pine forest.">
+        </div>
+
+        <p class="kicker">A Holiday Romance in Five Challenges</p>
         <h1 class="title">Mistletoe, Main Street &amp; the Customer Journey</h1>
         <p class="subtitle">One town. Five challenges. One Christmas miracle.</p>
+        <p class="billing">Starring The Executive Team &nbsp;·&nbsp; Snowflake Falls</p>
         <button class="btn btn-primary" id="btn-start">Start the Movie</button>
       </div>
     </section>
@@ -69,7 +48,7 @@
       <div class="card round-card">
         <div class="round-header">
           <span class="progress" id="round-progress">Scene 1 of 5</span>
-          <span class="timer" id="timer" aria-live="polite">45</span>
+          <span class="timer" id="timer" aria-live="polite">40</span>
         </div>
         <p class="round-label" id="round-label"></p>
         <h2 class="round-title" id="round-title"></h2>
