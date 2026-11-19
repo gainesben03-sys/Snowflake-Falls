@@ -1,4 +1,3 @@
-
 /* ============================================================
    SNOWFLAKE FALLS
    A GradeMark Studios Christmas CX Experience
@@ -764,6 +763,7 @@
 
     app.innerHTML = `
       <div class="sf-screen">
+        <img src="cover.jpg" alt="A smiling couple laughing together as snow falls around them in a pine forest." style="width:100%;border-radius:12px;display:block;margin-bottom:22px;">
         <div class="sf-brand">GradeMark Studios Presents</div>
         <div class="sf-snow">❄️ ✨ ❄️</div>
         <h1 class="sf-title">Snowflake Falls</h1>
@@ -953,13 +953,15 @@
     const scene = scenes[currentScene];
     const choice = scene.choices[choiceIndex];
 
-    choice.scores.forEach((points, index) => {
-      scores[index] += points;
-    });
+    if (!timedOut) {
+      choice.scores.forEach((points, index) => {
+        scores[index] += points;
+      });
+    }
 
     answers.push({
       scene: scene.title,
-      choice: choice.title,
+      choice: timedOut ? "No decision (time expired)" : choice.title,
       feedback: choice.feedback,
       outcome: choice.outcome,
       timedOut
@@ -976,19 +978,19 @@
         <h3>${timedOut ? "⏰ Time's up!" : "✨ Your decision is in!"}</h3>
 
         <p>
-          <strong>Your move:</strong> ${choice.title}
+          <strong>Your move:</strong> ${timedOut ? "No decision (time expired)" : choice.title}
         </p>
 
-        <p>${choice.feedback}</p>
+        <p>${timedOut ? "The clock ran out before a decision was made, so no points were earned for this scene." : choice.feedback}</p>
 
         <p>
-          <strong>And then...</strong> ${choice.outcome}
+          <strong>And then...</strong> ${timedOut ? "The snow kept falling, but the moment had passed." : choice.outcome}
         </p>
 
         <div class="sf-score-strip">
           ${categories.map((category, index) => `
             <div class="sf-score-pill">
-              ${categoryIcons[index]} ${category}: +${choice.scores[index]}
+              ${categoryIcons[index]} ${category}: +${timedOut ? 0 : choice.scores[index]}
             </div>
           `).join("")}
         </div>
