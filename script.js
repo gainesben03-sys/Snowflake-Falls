@@ -1144,7 +1144,7 @@
           </p>
 
           <p style="text-align:right;margin-top:25px;">
-            With gratitude and Christmas cheer,<br>
+            We are so glad this little town now as a CCO as our newest resident. A cup of coffee on me.  With gratitude and Christmas cheer,<br>
             <strong>Mayor Eleanor Pruitt</strong><br>
             Snowflake Falls
           </p>
