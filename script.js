@@ -58,54 +58,54 @@
 
     // SCENE 1
     {
-      title: "The Big Kickoff",
+      title: "The Festival Is in Trouble",
       subtitle: "Implementation",
-      location: "The Snowflake Falls Town Hall",
+      location: "The Snowflake Falls Town Square",
       image: "🎄",
       setup:
-        "You arrive at Town Hall just as Mayor Eleanor Pruitt is trying to explain the town's new school information system to a room full of frustrated principals. The system is supposed to be ready before the Christmas Festival. It isn't.",
+        "The Christmas Festival is one week away. The lights are half-hung, the vendor booths have no assigned spots, and the tree-lighting schedule went out to everyone except the choir.",
       dialogue: [
         {
           character: "MAYOR ELEANOR PRUITT",
-          text: "Oh, thank goodness you're here! We have a situation. The school district is supposed to launch next week, but nobody seems to know what is happening. The superintendent says the project team has disappeared. The project team says the superintendent hasn't answered an email since October."
+          text: "Oh, thank goodness you're here. The festival is one week away, and half the vendors don't know where their booths are."
         },
         {
           character: "MRS. CLAUS",
-          text: "And I haven't received a single student attendance report. How am I supposed to know who's been naughty or nice?"
+          text: "And the choir hasn't been told when to sing. I've had three people ask me whether the tree is still coming."
         },
         {
           character: "MAYOR ELEANOR PRUITT",
           text: "So, Executive... what's our first move?"
         }
       ],
-      question: "The implementation is behind schedule, stakeholders are frustrated, and nobody agrees on what is left to do. What do you do?",
+      question: "The festival plan is scattered across emails, clipboards, and a whiteboard nobody can read. How do you get it back on track?",
       choices: [
         {
-          title: "Call an emergency kickoff reset",
-          description: "Bring the district and project team together. Reconfirm scope, ownership, milestones, risks, and the definition of go-live success.",
+          title: "Call a festival planning kickoff",
+          description: "Bring vendors, volunteers, and town leaders together. Confirm the schedule, roles, booth assignments, and what 'festival ready' means.",
           scores: [7, 3, 2, 4],
-          feedback: "A strong start. You establish shared expectations and give everyone a common plan. A project needs more than a calendar invite—it needs ownership.",
-          outcome: "The superintendent finally puts down her peppermint mocha. For the first time in weeks, everyone is looking at the same plan."
+          feedback: "A clear plan gives everyone the same picture. A festival is built by a team that knows its job, not by a flurry of emails.",
+          outcome: "The bakery owner finally finds her booth number. For the first time in weeks, everyone is looking at the same schedule."
         },
         {
-          title: "Tell the team to work faster",
-          description: "The deadline is the deadline. Ask everyone to put in extra hours and get the project across the finish line.",
+          title: "Tell the volunteers to hurry",
+          description: "The festival is in a week. Ask everyone to work extra hours and get the setup finished.",
           scores: [3, 1, 5, 2],
-          feedback: "Urgency matters, but speed without clarity can create more problems. You may get activity, but you haven't solved the underlying confusion.",
-          outcome: "The project team starts working late. Unfortunately, they're still not sure what they're working on."
+          feedback: "Urgency helps, but rushing without a plan creates confusion. You'll get activity, but not yet a festival.",
+          outcome: "The volunteers work late and hang the lights in the wrong color. Nobody has told them which way the tree faces."
         },
         {
-          title: "Start with the end users",
-          description: "Talk to school administrators and teachers. Understand what they need to do on day one and work backward from there.",
+          title: "Start with the families who will attend",
+          description: "Ask what families need on festival day: a clear map, easy parking, and something to do while they wait.",
           scores: [4, 4, 3, 4],
-          feedback: "A customer-centered approach. Understanding the actual user experience helps define what a successful implementation should look like.",
-          outcome: "A teacher raises her hand. 'Honestly, I just need to take attendance without calling three people.' Everyone nods."
+          feedback: "Starting with the guest experience keeps the festival focused on what families actually need.",
+          outcome: "A little girl asks where the cocoa is. Everyone realizes the festival map is missing."
         },
         {
-          title: "Send a project status email",
-          description: "Summarize the current situation, list outstanding tasks, and ask each owner to reply with an update by tomorrow.",
+          title: "Send an update email to the town",
+          description: "Summarize the current situation, list outstanding tasks, and ask each vendor to reply with an update by tomorrow.",
           scores: [5, 2, 3, 5],
-          feedback: "Documentation and accountability are helpful, but an email alone may not resolve competing expectations or create the alignment this project needs.",
+          feedback: "Communication matters, but an email alone can't resolve competing plans. The people who run the booths need to be in the room.",
           outcome: "Your inbox receives 47 replies. One includes a recipe for gingerbread cookies. It is unclear why."
         }
       ]
@@ -113,109 +113,109 @@
 
     // SCENE 2
     {
-      title: "The Night Before Go-Live",
+      title: "The Night Before the Festival",
       subtitle: "Implementation & Customer Success",
-      location: "The Town's Very Small IT Office",
-      image: "💻",
+      location: "The Cozy Mug Bakery",
+      image: "🎠",
       setup:
-        "It's the night before launch. Snow is falling, the town's Christmas lights are flickering, and the implementation team has discovered that the student data imported from the old system doesn't match the new system.",
+        "It's the night before the festival opens. Snow is starting to fall, the carousel is decorated, and the online ticket system has sold far more carousel rides than the carousel can hold.",
       dialogue: [
         {
-          character: "JACK FROST",
-          text: "I don't want to alarm anyone, but we have 600 duplicate student records, three missing schools, and a spreadsheet called FINAL_FINAL_ACTUAL_FINAL.xlsx."
+          character: "CLAIRE HOLLIS",
+          text: "I don't want to alarm anyone, but we've sold 600 carousel tickets. The carousel seats 240, and the horses are getting nervous."
         },
         {
           character: "MAYOR ELEANOR PRUITT",
-          text: "Can we still launch tomorrow? The superintendent has already invited the local newspaper."
+          text: "Can we still open tomorrow? The newspaper has already announced it."
         },
         {
-          character: "JACK FROST",
-          text: "Well, technically, we can turn it on. Whether it works is a different question."
+          character: "CLAIRE HOLLIS",
+          text: "Well, technically, we can open. Whether the carousel survives the crowd is a different question."
         }
       ],
-      question: "The launch is tomorrow. Data quality is questionable. What is your move?",
+      question: "Tickets are oversold and the festival opens tomorrow morning. What is your move?",
       choices: [
         {
-          title: "Pause and establish launch criteria",
-          description: "Identify critical data issues, define what must be fixed before launch, and communicate a realistic go/no-go recommendation.",
+          title: "Pause and set the opening plan",
+          description: "Identify the ticket problem, set a timed-entry plan for the carousel, and give the mayor a realistic recommendation.",
           scores: [7, 2, 3, 4],
-          feedback: "Excellent judgment. A successful launch is not simply turning the system on. It means protecting the customer and making a responsible decision.",
-          outcome: "The superintendent is disappointed, but appreciates the honesty. The team agrees on a controlled launch plan."
+          feedback: "Excellent judgment. Protecting families from a chaotic opening is part of the job. A clear plan for the carousel line is the best gift you can give them.",
+          outcome: "The mayor is disappointed, but appreciates the honesty. The team agrees on a timed-entry plan for the carousel."
         },
         {
-          title: "Launch anyway and fix things later",
-          description: "The deadline is public. Turn on the system and resolve issues as they come in.",
+          title: "Open anyway and sort it out on the day",
+          description: "The newspaper has already announced it. Open the gates and handle problems as they come up.",
           scores: [2, 1, 6, 2],
-          feedback: "This creates unnecessary risk. Support can help resolve issues, but it should not become the emergency plan for an avoidable implementation failure.",
-          outcome: "The system goes live. The newspaper arrives. So do 83 support tickets."
+          feedback: "This creates unnecessary risk. Volunteers should not become the emergency plan for an avoidable overbooking.",
+          outcome: "The gates open. The newspaper arrives. So do 83 families asking where to stand in line."
         },
         {
-          title: "Create a focused recovery team",
-          description: "Bring the right technical and customer-facing people together. Prioritize critical data fixes and communicate progress to the district.",
+          title: "Create a festival recovery team",
+          description: "Bring the right people together to fix the ticket problem, prioritize the work, and keep families informed.",
           scores: [6, 3, 4, 4],
-          feedback: "A practical recovery approach. You bring the right people together, prioritize the work, and keep the customer informed.",
-          outcome: "The team works through the night. Someone orders pizza shaped like Christmas trees. Morale improves."
+          feedback: "A practical response. You bring the right people together, prioritize the work, and keep families informed.",
+          outcome: "The team works through the night. Someone bakes gingerbread cookies shaped like carousel horses. Morale improves."
         },
         {
-          title: "Ask the district to own the data cleanup",
-          description: "Explain that the district provided the original data and ask them to correct the records before launch.",
+          title: "Ask the ticket vendor to fix it",
+          description: "Explain that the vendor's system caused the overbooking and ask them to correct the tickets before the gates open.",
           scores: [4, 2, 3, 5],
-          feedback: "Customer ownership matters, but simply shifting responsibility can damage trust. The best approach is collaborative problem-solving.",
-          outcome: "The district sends back a spreadsheet. It is named FINAL_FINAL_ACTUAL_FINAL_v2.xlsx."
+          feedback: "Vendors matter, but shifting blame can damage trust. Collaborative problem-solving gets families through the gate.",
+          outcome: "The vendor sends back a spreadsheet named FINAL_FINAL_ACTUAL_FINAL_v2.xlsx."
         }
       ]
     },
 
     // SCENE 3
     {
-      title: "Christmas Training Miracle",
+      title: "Training the Festival Volunteers",
       subtitle: "Training",
-      location: "Snowflake Falls Elementary School",
-      image: "📚",
+      location: "The Snowflake Falls Community Hall",
+      image: "🍪",
       setup:
-        "The system is finally live. But the teachers are not exactly celebrating. Most have never used the new platform, the training room is full, and someone has accidentally projected a picture of their cat onto the smartboard.",
+        "Forty volunteers have signed up to run the cocoa stand, the ticket booth, and the reindeer petting pen. Most have never worked a festival before, and someone has accidentally projected a photo of a cat onto the screen.",
       dialogue: [
         {
           character: "EMILY EVERGREEN",
-          text: "I've prepared a 94-slide presentation covering every feature, setting, report, and configuration option. We should be done in about four hours."
+          text: "I've prepared a 94-slide guide covering every booth, every schedule, and every cocoa recipe. We should be done in about four hours."
         },
         {
           character: "MRS. CLAUS",
-          text: "Four hours? I have 26 classrooms to visit, 400 presents to wrap, and a reindeer with a scheduling conflict."
+          text: "Four hours? I have a choir that needs rehearsal and a reindeer with a scheduling conflict."
         },
         {
           character: "EMILY EVERGREEN",
-          text: "Well, the presentation is already printed."
+          text: "Well, the guide is already printed."
         }
       ],
-      question: "The teachers need to become comfortable using the system. How do you approach training?",
+      question: "The volunteers need to be ready to work the festival tomorrow. How do you prepare them?",
       choices: [
         {
-          title: "Focus on real-world workflows",
-          description: "Teach the most common tasks first. Demonstrate, let users practice, and give them simple job aids they can reference later.",
+          title: "Teach each booth's real tasks first",
+          description: "Cover the most common jobs first: pouring cocoa, taking tickets, and guiding families. Let volunteers practice, and give them simple cards to keep at their booth.",
           scores: [2, 8, 2, 4],
-          feedback: "Exactly right. Effective training is about helping people do their jobs—not showing them every button in the software.",
-          outcome: "Teachers begin practicing attendance, grading, and reporting. Mrs. Claus successfully submits her first attendance report."
+          feedback: "Exactly right. Volunteers need to know how to run their booth, not every detail of the festival.",
+          outcome: "Volunteers practice pouring cocoa and taking tickets. Mrs. Claus successfully sells her first cookie to a reindeer."
         },
         {
-          title: "Deliver the full presentation",
-          description: "Cover every feature so users have a complete understanding of the platform before they leave.",
+          title: "Deliver the full 94-slide guide",
+          description: "Cover every booth, schedule, and recipe so volunteers understand the whole festival before they start.",
           scores: [2, 4, 2, 2],
-          feedback: "Completeness is not the same as effectiveness. Too much information at once can overwhelm users and reduce retention.",
-          outcome: "Slide 47 appears. A teacher quietly opens a second browser tab to look at vacation packages."
+          feedback: "Completeness is not the same as readiness. Too much information at once overwhelms volunteers.",
+          outcome: "Slide 47 appears. A volunteer quietly sneaks a peek at a vacation brochure."
         },
         {
-          title: "Offer office hours and individual help",
-          description: "Provide small-group sessions and scheduled opportunities for users to ask questions as they begin working in the system.",
+          title: "Offer shift leads and on-site help",
+          description: "Assign a shift lead to each booth and schedule short practice sessions so volunteers have someone to ask on festival day.",
           scores: [2, 6, 5, 4],
-          feedback: "A strong support model. Follow-up access helps reinforce learning and gives users confidence when real questions arise.",
-          outcome: "The teachers appreciate having someone to call. One asks if you can also help with the copy machine."
+          feedback: "A strong support model. Someone to ask on the day keeps volunteers confident when real questions come up.",
+          outcome: "The volunteers appreciate having someone to call. One asks if you can also fix the copy machine."
         },
         {
-          title: "Record a training video and send it out",
-          description: "Create a recording so everyone can watch the training when it fits their schedule.",
+          title: "Record a how-to video",
+          description: "Create a short video of each booth's tasks so volunteers can watch it when it fits their schedule.",
           scores: [2, 5, 2, 3],
-          feedback: "On-demand learning is valuable, but a recording alone doesn't guarantee understanding. Consider practice and opportunities for questions.",
+          feedback: "On-demand learning helps, but a recording alone doesn't guarantee volunteers will be ready on the day.",
           outcome: "The video gets 312 views. Nobody is entirely sure whether anyone watched the whole thing."
         }
       ]
@@ -223,16 +223,16 @@
 
     // SCENE 4
     {
-      title: "Christmas Eve Crisis",
+      title: "The Christmas Eve Crisis",
       subtitle: "Support",
-      location: "The Snowflake Falls Support Center",
-      image: "☎️",
+      location: "The Snowflake Falls Festival Info Tent",
+      image: "🎫",
       setup:
-        "It's Christmas Eve. The town's festival begins in two hours. Then the support phone starts ringing. A principal can't log in, a parent can't see grades, and the superintendent has sent an email with the subject line: WE NEED TO TALK.",
+        "It's Christmas Eve. The tree lighting begins in two hours. Then the ticket scanner at the main gate freezes. Families are stuck in the snow, and the mayor is holding a letter that reads: THE FESTIVAL MAY HAVE TO BE CANCELED.",
       dialogue: [
         {
           character: "SAM SNOW",
-          text: "We're getting flooded. The login issue is affecting multiple schools. I have 29 open tickets, three voicemails, and someone just sent us a fax."
+          text: "We're flooded. The gate scanners aren't working, the map is down, and I have 29 open messages. Someone just sent us a fax."
         },
         {
           character: "MAYOR ELEANOR PRUITT",
@@ -240,97 +240,98 @@
         },
         {
           character: "SAM SNOW",
-          text: "I can handle the tickets, but I need someone to help prioritize and communicate."
+          text: "I can handle the messages, but I need someone to help prioritize and communicate."
         }
       ],
-      question: "A widespread issue is affecting customers on Christmas Eve. What do you do?",
+      question: "Families are stuck at the gate on Christmas Eve. What do you do?",
       choices: [
         {
           title: "Activate incident management",
-          description: "Assess impact, assign an incident lead, prioritize the issue, communicate updates, and coordinate technical resolution.",
+          description: "Assess the impact, assign an incident lead, prioritize the gate problem, communicate updates, and coordinate the fix.",
           scores: [3, 2, 8, 3],
-          feedback: "This is the right response. A coordinated incident process reduces confusion, keeps customers informed, and helps the team focus on resolution.",
-          outcome: "The team identifies a shared login configuration issue. A fix is underway, and customers receive a clear update."
+          feedback: "This is the right response. A coordinated plan keeps families informed and helps the team focus on fixing the gate first.",
+          outcome: "The team finds the problem: one scanner was set to the wrong date. The gate reopens, and families cheer."
         },
         {
-          title: "Work tickets in the order received",
-          description: "Treat every ticket equally and resolve each one as quickly as possible.",
+          title: "Help families in the order they arrived",
+          description: "Treat every family equally and help them in the order they reached the gate.",
           scores: [2, 2, 5, 2],
-          feedback: "Individual ticket resolution matters, but a widespread incident requires prioritization based on customer impact, not just arrival time.",
-          outcome: "The team resolves a printer issue before discovering that 300 teachers still cannot log in."
+          feedback: "Serving people in order sounds fair, but a jammed gate needs fixing first, not a longer line of people waiting to get in.",
+          outcome: "The team helps 40 families at the front, while 300 more still can't get through the gate."
         },
         {
-          title: "Send a customer-wide communication",
-          description: "Acknowledge the issue, explain what is known, share the next update time, and provide a temporary workaround if available.",
+          title: "Send a message to every family",
+          description: "Acknowledge the problem, explain what is known, share the next update time, and tell families where to wait for cocoa.",
           scores: [2, 2, 6, 6],
-          feedback: "Great customer communication. Transparency builds trust, especially when a complete resolution takes time. Pair it with coordinated technical work.",
-          outcome: "The superintendent forwards your message to every principal. For once, everyone knows what is happening."
+          feedback: "Great communication. Families who know what's happening are patient. Pair it with the fix so the update stays true.",
+          outcome: "Families read the update and head to the Cozy Mug Bakery for cocoa while they wait. The line stops feeling like a line."
         },
         {
-          title: "Ask the team to stay late until everything is fixed",
-          description: "Keep everyone online and working until all tickets are closed.",
+          title: "Ask the volunteers to stay late",
+          description: "Keep everyone on duty until the gate and every family are taken care of.",
           scores: [2, 1, 5, 2],
-          feedback: "Commitment is important, but effort without prioritization can exhaust the team. A structured response is more effective than simply working longer.",
-          outcome: "Everyone stays late. The reindeer are now waiting outside the support center."
+          feedback: "Effort matters, but without a plan, tired volunteers only add to the chaos.",
+          outcome: "Everyone stays late. The reindeer are now waiting outside the info tent."
         }
       ]
     },
 
     // SCENE 5
     {
-      title: "A Reason to Stay",
+      title: "The Tree Lighting",
       subtitle: "Customer Success",
-      location: "The Snowflake Falls Christmas Festival",
-      image: "❤️",
+      location: "The Snowflake Falls Town Square",
+      image: "❄️",
       setup:
-        "The login issue is resolved. The festival is underway. Children are skating, the town choir is singing, and the mayor has finally stopped checking her email every 90 seconds. But there is one final conversation.",
+        "The gate is open and the tree lighting is underway. Children are skating, the choir is singing, and then, right on cue, the first snowflake falls on the tree. But there is one final conversation.",
       dialogue: [
         {
           character: "MAYOR ELEANOR PRUITT",
-          text: "You've done something wonderful here. But I don't want this to be a one-week miracle. We need to know our schools are successful next month, next semester, and next year."
+          text: "You've done something wonderful here. But I don't want this to be a one-night miracle. I want families to come back next year, and the year after that."
         },
         {
-          character: "JACK FROST",
-          text: "The system is working. But are people actually getting value from it? Are they comfortable? Are they using the tools that could make their lives easier?"
+          character: "CLAIRE HOLLIS",
+          text: "The festival is working. But did families have fun? Did the volunteers enjoy it? Will they want to do it again?"
         },
         {
           character: "MAYOR ELEANOR PRUITT",
-          text: "So, Executive. What's the plan for keeping Snowflake Falls happy?"
+          text: "So, Executive. What's the plan for keeping the Snowflake Falls Christmas magic alive?"
         }
       ],
-      question: "The launch is behind you. How do you make sure the customer continues to succeed?",
+      question: "The festival is a success tonight. How do you make sure it becomes a tradition?",
       choices: [
         {
-          title: "Build a customer success plan",
-          description: "Establish goals, adoption measures, regular check-ins, success milestones, and a roadmap tied to the district's priorities.",
+          title: "Build a plan for next year's festival",
+          description: "Set goals, gather feedback from families and volunteers, schedule a review, and start planning next year's festival now.",
           scores: [3, 3, 3, 7],
-          feedback: "That's customer success. You move beyond resolving issues and focus on outcomes, adoption, relationships, and long-term value.",
-          outcome: "The superintendent agrees to quarterly success reviews. Mrs. Claus asks if you can add a reindeer wellness dashboard."
+          feedback: "That's customer success. You're looking beyond tonight, with goals, feedback, and a plan families will want to come back to.",
+          outcome: "The mayor agrees to a yearly review, and Mrs. Claus asks if next year's festival can include a reindeer wellness booth."
         },
         {
-          title: "Wait for the customer to ask for help",
-          description: "The system is live. Let the district reach out if they need anything.",
+          title: "Wait for families to ask what's next",
+          description: "The festival was a success. Let families reach out if they want to know about next year.",
           scores: [1, 1, 3, 2],
-          feedback: "Responsive support is important, but customer success requires a proactive relationship. Silence doesn't necessarily mean satisfaction.",
-          outcome: "The district goes quiet. You later discover that half the teachers are still using sticky notes."
+          feedback: "Responding to requests matters, but a tradition needs someone planning the next one. Silence doesn't mean families loved it.",
+          outcome: "The town goes quiet until spring. You later hear half the families weren't sure the festival would happen again."
         },
         {
-          title: "Schedule a quarterly business review",
-          description: "Review performance, challenges, usage, and future opportunities with district leadership.",
+          title: "Schedule a debrief with the town council",
+          description: "Review attendance, feedback, and what worked, with the council that supports the festival.",
           scores: [2, 2, 3, 6],
-          feedback: "A good step toward a strategic relationship. Make sure the discussion focuses on customer outcomes, not just a presentation of activity and metrics.",
-          outcome: "The superintendent brings a list of goals for the next semester. You realize this relationship is just getting started."
+          feedback: "A good step toward a lasting partnership. Focus on families' experience, not just attendance numbers.",
+          outcome: "The council brings a list of ideas for next year's festival. You realize this tradition is just getting started."
         },
         {
-          title: "Offer additional product features",
-          description: "Show the district everything else the platform can do and encourage them to use more features.",
+          title: "Add more booths and rides",
+          description: "Expand the festival with more attractions so there is even more to do next year.",
           scores: [2, 3, 2, 4],
-          feedback: "Product knowledge can create opportunities, but features should connect to a real customer need. Adoption without purpose isn't success.",
-          outcome: "The district is intrigued by the new features. Mrs. Claus asks if one of them can automate gift wrapping."
+          feedback: "More attractions can bring in crowds, but they should match what families actually enjoyed. Growth without purpose isn't success.",
+          outcome: "The new booths are popular. Mrs. Claus asks if one of them can gift-wrap presents for the reindeer."
         }
       ]
     }
   ];
+
 
   // ------------------------------------------------------------
   // 4. FIND THE GAME CONTAINER
@@ -1133,8 +1134,7 @@
           <p>
             Thanks to you, the Snowflake Falls Christmas Festival is
             officially back on. The town square is glowing, the choir
-            is singing, and Mrs. Claus has finally received her attendance
-            reports.
+            is singing, and the first snow has started falling on the tree.
           </p>
 
           <p>
