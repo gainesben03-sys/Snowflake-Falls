@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mistletoe, Main Street &amp; the Customer Journey</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="snow-layer" aria-hidden="true"></div>
+
+  <main id="app">
+
+    <!-- Screen 1: Movie Poster -->
+    <section class="screen active" id="screen-poster">
+      <div class="poster">
+        <svg class="town-illustration" viewBox="0 0 800 300" aria-hidden="true">
+          <rect width="800" height="300" fill="#1f3d2b"/>
+          <circle cx="620" cy="70" r="40" fill="#f6ecd2"/>
+          <!-- Hills -->
+          <path d="M0 200 Q200 140 400 200 T800 200 V300 H0Z" fill="#fff"/>
+          <!-- Trees -->
+          <g id="trees"></g>
+          <!-- Storefronts -->
+          <rect x="120" y="150" width="110" height="110" fill="#8b2e2e"/>
+          <polygon points="110,150 175,110 240,150" fill="#fff"/>
+          <rect x="150" y="190" width="40" height="70" fill="#f6ecd2"/>
+          <rect x="300" y="140" width="130" height="120" fill="#c9a24a"/>
+          <polygon points="290,140 365,95 440,140" fill="#fff"/>
+          <rect x="330" y="185" width="60" height="75" fill="#1f3d2b"/>
+          <rect x="500" y="160" width="100" height="100" fill="#f6ecd2"/>
+          <polygon points="490,160 550,120 610,160" fill="#8b2e2e"/>
+          <rect x="530" y="200" width="40" height="60" fill="#1f3d2b"/>
+          <!-- Christmas lights -->
+          <g class="lights">
+            <circle cx="150" cy="180" r="4" fill="#ffd46b"/>
+            <circle cx="200" cy="180" r="4" fill="#ff6b6b"/>
+            <circle cx="350" cy="175" r="4" fill="#ffd46b"/>
+            <circle cx="400" cy="175" r="4" fill="#ff6b6b"/>
+            <circle cx="530" cy="190" r="4" fill="#ffd46b"/>
+            <circle cx="575" cy="190" r="4" fill="#ff6b6b"/>
+          </g>
+        </svg>
+
+        <p class="kicker">A Holiday Comedy in Five Challenges</p>
+        <h1 class="title">Mistletoe, Main Street &amp; the Customer Journey</h1>
+        <p class="subtitle">One town. Five challenges. One Christmas miracle.</p>
+        <button class="btn btn-primary" id="btn-start">Start the Movie</button>
+      </div>
+    </section>
+
+    <!-- Screen 2: Character Introduction -->
+    <section class="screen" id="screen-intro">
+      <div class="card">
+        <p class="kicker">Chapter One</p>
+        <h2>Enter your name, Executive</h2>
+        <form id="name-form" autocomplete="off">
+          <label for="player-name" class="sr-only">Your name</label>
+          <input type="text" id="player-name" maxlength="30" placeholder="Your name" required>
+          <p class="error-text" id="name-error" hidden>Please enter a name to continue.</p>
+          <p class="welcome-line" id="welcome-line"></p>
+          <button type="submit" class="btn btn-primary" id="btn-save">Let's Save Christmas</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Screens 3-7: Game rounds (rendered by script.js) -->
+    <section class="screen" id="screen-round">
+      <div class="card round-card">
+        <div class="round-header">
+          <span class="progress" id="round-progress">Scene 1 of 5</span>
+          <span class="timer" id="timer" aria-live="polite">45</span>
+        </div>
+        <p class="round-label" id="round-label"></p>
+        <h2 class="round-title" id="round-title"></h2>
+        <p class="story" id="round-story"></p>
+        <div class="answers" id="answers" role="radiogroup" aria-label="Answer choices"></div>
+        <button class="btn btn-primary" id="btn-submit" disabled>Submit Decision</button>
+        <div class="feedback" id="feedback" hidden>
+          <p class="feedback-verdict" id="feedback-verdict"></p>
+          <p class="feedback-message" id="feedback-message"></p>
+          <p class="explanation" id="feedback-explanation"></p>
+          <button class="btn btn-primary" id="btn-next">Continue to Next Scene</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screen 8: Final Score -->
+    <section class="screen" id="screen-final">
+      <div class="card final-card">
+        <div class="festive-star" aria-hidden="true">&#9733;</div>
+        <p class="kicker">The Final Scene</p>
+        <h2 id="final-name"></h2>
+        <p class="final-score"><span id="final-score">0</span> / 50</p>
+        <p class="award-title" id="award-title"></p>
+        <p class="award-desc" id="award-desc"></p>
+        <div class="button-row">
+          <button class="btn btn-primary" id="btn-credits">See the Credits</button>
+          <button class="btn btn-secondary" id="btn-restart-final">Play Again</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screen 9: Credits -->
+    <section class="screen" id="screen-credits">
+      <div class="card credits-card">
+        <p class="credits-message">"Snowflake Falls was saved. The Christmas Festival lives on. The customers are happy. And everyone learned that the real meaning of Christmas is exceptional customer experience."</p>
+        <dl class="credits-list">
+          <dt>Starring</dt><dd>The Executive Team</dd>
+          <dt>Location</dt><dd>Snowflake Falls</dd>
+          <dt>Genre</dt><dd>Holiday Comedy / Customer Experience</dd>
+          <dt>Produced by</dt><dd>The People Behind the Customer Experience</dd>
+        </dl>
+        <button class="btn btn-primary" id="btn-restart-credits">Play Again</button>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="restart-bar" id="restart-bar" hidden>
+    <button class="btn-link" id="btn-restart">Restart</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
