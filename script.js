@@ -702,6 +702,44 @@
       margin-top: 30px;
     }
 
+    .sf-poster {
+      padding: 28px;
+    }
+
+    .sf-kicker {
+      color: #a63d40;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .sf-cover {
+      display: block;
+      width: 100%;
+      border-radius: 12px;
+      border: 6px solid #c9a24a;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
+      margin-bottom: 22px;
+    }
+
+    .sf-poster-title {
+      color: #173b50;
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1.1;
+      margin: 6px 0 12px;
+    }
+
+    .sf-billing {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #657681;
+      margin: 0 0 22px;
+    }
+
     @media (max-width: 650px) {
       .sf-screen {
         padding: 20px;
@@ -758,12 +796,34 @@
   // 7. OPENING SCREEN
   // ------------------------------------------------------------
 
+  // Title screen: cover photo, title, and Start the Movie button.
+  function renderPoster() {
+    stopTimer();
+
+    app.innerHTML = `
+      <div class="sf-screen sf-poster">
+        <div class="sf-kicker">A Holiday Romance in Five Challenges</div>
+
+        <img class="sf-cover" src="cover.jpg" alt="A smiling couple laughing together as snow falls around them in a pine forest.">
+
+        <h1 class="sf-poster-title">Mistletoe, Main Street &amp; the Customer Journey</h1>
+        <div class="sf-subtitle">One town. Five challenges. One Christmas miracle.</div>
+        <div class="sf-billing">Starring The Executive Team &nbsp;·&nbsp; Snowflake Falls</div>
+
+        <button class="sf-button" id="sf-start-movie">Start the Movie</button>
+
+        ${renderFooter()}
+      </div>
+    `;
+
+    document.getElementById("sf-start-movie").addEventListener("click", renderOpening);
+  }
+
   function renderOpening() {
     stopTimer();
 
     app.innerHTML = `
       <div class="sf-screen">
-        <img src="cover.jpg" alt="A smiling couple laughing together as snow falls around them in a pine forest." style="width:100%;border-radius:12px;display:block;margin-bottom:22px;">
         <div class="sf-brand">GradeMark Studios Presents</div>
         <div class="sf-snow">❄️ ✨ ❄️</div>
         <h1 class="sf-title">Snowflake Falls</h1>
@@ -1151,7 +1211,7 @@
       currentScene = 0;
       scores = [0, 0, 0, 0];
       answers = [];
-      renderOpening();
+      renderPoster();
     });
   }
 
@@ -1159,6 +1219,6 @@
   // 12. START THE GAME
   // ------------------------------------------------------------
 
-  renderOpening();
+  renderPoster();
 
 })();
